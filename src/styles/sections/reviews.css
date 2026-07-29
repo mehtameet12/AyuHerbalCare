@@ -1,0 +1,89 @@
+/* ============================================================================
+   SECTION — Reviews
+   ========================================================================= */
+
+.reviews {
+  background-color: var(--surface-alt);
+}
+
+.reviews-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-block-end: var(--space-fluid-xl);
+}
+
+.reviews-top h2 {
+  margin-block-start: var(--space-sm);
+  color: var(--green-800);
+}
+
+.google-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Per-letter colouring is decorative only; the wrapper carries an aria-label
+   and the letters are aria-hidden so it is not spelled out character by
+   character by a screen reader. */
+.google-badge .glogo {
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.glogo .b {
+  color: #4285f4;
+}
+
+.glogo .r {
+  color: #ea4335;
+}
+
+.glogo .y {
+  color: #fbbc05;
+}
+
+.glogo .g {
+  color: #34a853;
+}
+
+.google-badge .rate b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: 1;
+  color: var(--green-800);
+}
+
+.google-badge .stars {
+  font-size: var(--fs-sm);
+  letter-spacing: 2px;
+}
+
+.google-badge small {
+  font-size: var(--fs-2xs);
+  color: var(--text-muted);
+}
+
+/* Same fluid-to-three-columns approach as the services grid. */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-fluid-md);
+}
+
+@media (--lg) {
+  .reviews-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

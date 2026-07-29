@@ -1,0 +1,247 @@
+/* ============================================================================
+   SECTION — Hero
+   ========================================================================= */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  color: var(--paper);
+  background-color: var(--green-900);
+
+  /* 100vh on iOS Safari is the viewport WITHOUT the browser chrome subtracted,
+     so a 100vh hero is always taller than what the user can actually see and
+     the bottom of it is clipped. `svh` is the small-viewport unit — the height
+     when the chrome is expanded — which is the one that never clips.
+     The vh line stays first as the fallback for engines predating svh. */
+  min-block-size: 100vh;
+  min-block-size: 100svh;
+
+  /* Clears the fixed header from a token instead of the previous hard-coded
+     90px, which was hand-matched to a header height that has since changed. */
+  padding-block: calc(var(--header-h) + var(--space-fluid-lg)) var(--space-fluid-xl);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 90% at 85% 15%, rgb(184 147 76 / 0.14), transparent 55%),
+    radial-gradient(90% 80% at 0% 100%, rgb(111 135 101 / 0.22), transparent 60%), var(--green-900);
+}
+
+.hero-grid {
+  position: relative;
+  z-index: var(--z-raised);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-fluid-xl);
+  align-items: center;
+  inline-size: 100%;
+}
+
+@media (--lg) {
+  .hero-grid {
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 0.5rem + 4vw, 4.5rem);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Copy
+------------------------------------------------------------------------------ */
+.hero-copy {
+  container-type: inline-size;
+  min-inline-size: 0;
+}
+
+.hero-copy h1 {
+  margin-block-end: var(--space-md);
+  font-size: var(--fs-h1);
+  line-height: 0.98;
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.hero-copy h1 em {
+  font-style: italic;
+  color: var(--gold-400);
+}
+
+.hero-eyebrow {
+  margin-block-end: var(--space-md);
+}
+
+.hero-copy .lead {
+  max-inline-size: var(--measure-narrow);
+  margin-block-end: var(--space-fluid-md);
+  font-size: var(--fs-lg);
+  font-weight: 300;
+  color: var(--text-on-dark);
+  text-wrap: pretty;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* At the very narrowest the two CTAs stack full-width rather than squeezing
+   into two ~130px buttons with wrapped labels. */
+.hero-actions .btn {
+  flex: 1 1 13rem;
+}
+
+@media (--sm) {
+  .hero-actions .btn {
+    flex: 0 0 auto;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Visual
+------------------------------------------------------------------------------ */
+.hero-visual {
+  container-type: inline-size;
+  position: relative;
+  inline-size: 100%;
+  max-inline-size: 30rem;
+  margin-inline: auto;
+}
+
+@media (--lg) {
+  .hero-visual {
+    max-inline-size: none;
+    margin-inline: 0;
+  }
+}
+
+.hero-figure {
+  --ratio: 4 / 5;
+
+  box-shadow: var(--shadow-lg);
+}
+
+/* The Google rating badge. It sits BELOW the image by default; only once its
+   container is wide enough to absorb the overhang does it become an overlay.
+   The previous build gave it `left: -34px` unconditionally, which pushed it
+   past the 20px page gutter on a 320px screen and caused real horizontal
+   overflow (previously hidden by `overflow-x: hidden` on <body>). */
+.hero-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  color: var(--green-800);
+  background-color: var(--paper);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-md);
+}
+
+.hero-badge .g-stars {
+  font-size: var(--fs-md);
+  letter-spacing: 2px;
+  color: var(--gold-500);
+}
+
+.hero-badge b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  line-height: 1;
+  color: var(--green-800);
+}
+
+.hero-badge small {
+  font-size: var(--fs-2xs);
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+@container (min-width: 26rem) {
+  .hero-badge {
+    position: absolute;
+    inset-inline-start: max(-2.125rem, calc(var(--gutter) * -0.5));
+    inset-block-end: var(--space-fluid-md);
+    max-inline-size: 17rem;
+    margin-block-start: 0;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Scroll cue
+------------------------------------------------------------------------------ */
+.hero-scroll {
+  position: absolute;
+  z-index: var(--z-raised);
+  inset-block-end: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+  inset-inline-start: 50%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2xs);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.55);
+  transform: translateX(-50%);
+}
+
+/* Only shown where there is vertical room for it to not collide with the copy. */
+@media (--lg) {
+  .hero-scroll {
+    display: flex;
+  }
+}
+
+.hero-scroll .line {
+  inline-size: 1px;
+  block-size: 2.5rem;
+  background: linear-gradient(var(--gold-400), transparent);
+  animation: scroll-drop 2.2s var(--ease) infinite;
+}
+
+@keyframes scroll-drop {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  50% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+
+  51% {
+    transform-origin: bottom;
+  }
+
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Landscape phone
+   ~390px of height cannot hold a full-viewport hero. Drop the minimum and let
+   the content define the height instead of clipping it.
+------------------------------------------------------------------------------ */
+@media (--short) {
+  .hero {
+    min-block-size: 0;
+    padding-block: calc(var(--header-h) + var(--space-lg)) var(--space-lg);
+  }
+
+  .hero-scroll {
+    display: none;
+  }
+
+  .hero-visual {
+    max-inline-size: 22rem;
+  }
+}

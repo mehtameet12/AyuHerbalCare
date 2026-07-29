@@ -1,0 +1,137 @@
+/* ============================================================================
+   SECTION — Contact
+   ========================================================================= */
+
+.contact {
+  background-color: var(--surface);
+}
+
+.contact .split {
+  align-items: start;
+}
+
+.contact-info {
+  /* The hours rows below re-flow on this element's width, not the viewport's,
+     because that width depends on whether .split has collapsed. */
+  container-type: inline-size;
+  min-inline-size: 0;
+}
+
+.contact-info h2 {
+  margin-block: var(--space-sm) var(--space-md);
+  color: var(--green-800);
+}
+
+.contact-info > p:not(.eyebrow) {
+  max-inline-size: var(--measure-narrow);
+  margin-block-end: var(--space-fluid-md);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* ----------------------------------------------------------------------------
+   Detail rows
+------------------------------------------------------------------------------ */
+.contact-detail {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding-block: var(--space-sm);
+  border-block-start: 1px solid var(--border);
+}
+
+.contact-detail:last-of-type {
+  border-block-end: 1px solid var(--border);
+}
+
+.contact-detail .ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+  color: var(--gold-ink);
+  border: 1px solid var(--gold-500);
+  border-radius: var(--radius-full);
+}
+
+.contact-detail .ic svg {
+  inline-size: 1.125rem;
+  block-size: 1.125rem;
+}
+
+/* Replaces the inline `style="flex:1"` that used to be in the markup. */
+.contact-detail .detail-body {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.contact-detail b {
+  display: block;
+  margin-block-end: var(--space-3xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+.contact-detail a,
+.contact-detail .value {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-base);
+  color: var(--text);
+  overflow-wrap: anywhere; /* long email must not widen the column */
+  transition: color var(--dur-fast) var(--ease);
+}
+
+/* Phone and email are real links now — and on a phone they are the primary
+   conversion path, so they get the full 44px target, not just line height.
+   The address is not a link and stays at its natural height. */
+.contact-detail a {
+  min-block-size: var(--tap);
+}
+
+.contact-detail .value {
+  min-block-size: 1.75rem;
+}
+
+@media (--hover-pointer) {
+  .contact-detail a:hover {
+    color: var(--gold-ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Opening hours
+   Stacked label-over-value when the column is narrow, two-up once it is not.
+------------------------------------------------------------------------------ */
+.hours {
+  display: grid;
+  gap: var(--space-3xs);
+  margin-block-start: var(--space-3xs);
+}
+
+.hours-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 var(--space-sm);
+  justify-content: space-between;
+  max-inline-size: 19rem;
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+}
+
+.hours-row dt {
+  font-weight: 400;
+}
+
+@container (max-width: 17rem) {
+  .hours-row {
+    justify-content: flex-start;
+  }
+}

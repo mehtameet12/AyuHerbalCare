@@ -1,0 +1,208 @@
+/* ============================================================================
+   COMPONENT — Booking form
+   ========================================================================= */
+
+.booking-form {
+  align-self: start;
+  padding: var(--space-fluid-md);
+  color: var(--paper);
+  background-color: var(--green-900);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+@media (--md) {
+  .booking-form {
+    padding: clamp(2rem, 1rem + 3vw, 3rem);
+  }
+}
+
+.booking-form h3 {
+  margin-block-end: var(--space-2xs);
+  color: var(--paper);
+}
+
+.booking-form .form-sub {
+  margin-block-end: var(--space-md);
+  font-size: var(--fs-md);
+  color: var(--text-on-dark-muted);
+}
+
+.field {
+  margin-block-end: var(--space-sm);
+}
+
+.field label {
+  display: block;
+  margin-block-end: var(--space-2xs);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold-300);
+}
+
+/* The lowercase, untracked treatment is what marks this as secondary — an
+   opacity knock-down took --gold-300 below 4.5:1 against the dark form. */
+.field label .optional {
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--text-on-dark-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  inline-size: 100%;
+  min-block-size: var(--tap);
+  padding: var(--space-xs) var(--space-sm);
+  font-family: var(--font-sans);
+  font-weight: 300;
+
+  /* Must not drop below 16px: iOS Safari auto-zooms the whole page when a
+     focused input's font-size is smaller, which then leaves the user scrolled
+     sideways on a layout that was never meant to scroll horizontally. */
+  font-size: max(1rem, var(--fs-md));
+
+  color: var(--paper);
+  background-color: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: var(--radius-xs);
+  transition:
+    border-color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease);
+}
+
+.field select {
+  /* Reset the native control so the dark theme applies on iOS too. */
+  appearance: none;
+  padding-inline-end: var(--space-xl);
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentcolor 50%),
+    linear-gradient(135deg, currentcolor 50%, transparent 50%);
+  background-position:
+    right var(--space-md) center,
+    right calc(var(--space-md) - 5px) center;
+  background-size:
+    5px 5px,
+    5px 5px;
+  background-repeat: no-repeat;
+}
+
+.field select option {
+  color: var(--ink);
+  background-color: var(--paper);
+}
+
+.field textarea {
+  min-block-size: 6rem;
+  line-height: var(--lh-body);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgb(255 255 255 / 0.45);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  background-color: rgb(255 255 255 / 0.1);
+  border-color: var(--gold-400);
+}
+
+/* The border tint alone is not a sufficient focus indicator, so the shared
+   :focus-visible ring from base.css stays in place on top of it. */
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-sm);
+}
+
+/* Two-up only once there is room for both fields to stay comfortably tappable.
+   At 320px these stay stacked rather than becoming 100px-wide inputs. */
+@media (--sm) {
+  .field-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Validation state
+------------------------------------------------------------------------------ */
+.field .err-msg {
+  display: none;
+  margin-block-start: var(--space-3xs);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.04em;
+  color: var(--danger);
+}
+
+.field.is-invalid .err-msg {
+  display: block;
+}
+
+.field.is-invalid input,
+.field.is-invalid select,
+.field.is-invalid textarea {
+  border-color: var(--danger-border);
+}
+
+.booking-form .btn {
+  inline-size: 100%;
+  margin-block-start: var(--space-2xs);
+}
+
+/* ----------------------------------------------------------------------------
+   Success panel
+------------------------------------------------------------------------------ */
+.form-success {
+  display: none;
+  padding-block: var(--space-lg);
+  text-align: center;
+}
+
+.form-success.is-shown {
+  display: block;
+  animation: fade-up var(--dur-slow) var(--ease);
+}
+
+.form-success:focus {
+  outline: none;
+}
+
+.form-success .check {
+  display: grid;
+  place-items: center;
+  inline-size: 3.75rem;
+  block-size: 3.75rem;
+  margin: 0 auto var(--space-md);
+  font-size: var(--fs-h3);
+  color: var(--gold-400);
+  border: 1px solid var(--gold-400);
+  border-radius: var(--radius-full);
+}
+
+.form-success h3 {
+  color: var(--paper);
+}
+
+.form-success p {
+  max-width: var(--measure-narrow);
+  margin-inline: auto;
+  margin-block-start: var(--space-2xs);
+  font-size: var(--fs-md);
+  color: var(--text-on-dark-muted);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

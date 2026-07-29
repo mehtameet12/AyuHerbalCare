@@ -1,0 +1,45 @@
+/* ============================================================================
+   COMPONENT — Scroll reveal
+
+   The hidden state is scoped to `.js` (added to <html> by an inline script in
+   <head>). If JavaScript is disabled, blocked, or throws before it runs, the
+   class is never added and the content is simply visible — the page can never
+   render blank. Only `opacity` and `transform` animate, so each reveal is a
+   compositor-only job with no layout or paint work.
+   ========================================================================= */
+
+.js .reveal {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+  transition:
+    opacity var(--dur-reveal) var(--ease),
+    transform var(--dur-reveal) var(--ease);
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Stagger. Delays are small enough that a fast scroll never leaves a visible
+   gap, and they are dropped entirely under reduced motion by the duration
+   tokens in base.css. */
+.js .reveal.d1 {
+  transition-delay: 80ms;
+}
+
+.js .reveal.d2 {
+  transition-delay: 160ms;
+}
+
+.js .reveal.d3 {
+  transition-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

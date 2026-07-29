@@ -1,0 +1,168 @@
+/* ============================================================================
+   COMPONENT — Service card & review card
+
+   Both cards declare `container-type: inline-size` and size their own internals
+   from their own width. That matters because the same card renders at ~272px
+   (one column, 320px phone), ~330px (two columns, tablet) and ~300px (three
+   columns, 1440px desktop) — a viewport media query cannot distinguish those,
+   but a container query can.
+   ========================================================================= */
+
+.service-card,
+.review-card {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0; /* let the card shrink inside a grid track */
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition:
+    transform var(--dur-slow) var(--ease),
+    box-shadow var(--dur-slow) var(--ease),
+    border-color var(--dur-slow) var(--ease);
+}
+
+@media (--hover-pointer) {
+  .service-card:hover,
+  .review-card:hover {
+    transform: translate3d(0, -8px, 0);
+    box-shadow: var(--shadow-md);
+    border-color: var(--gold-200);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Service card
+------------------------------------------------------------------------------ */
+.service-card {
+  overflow: hidden;
+}
+
+.service-card .media {
+  --ratio: 16 / 11;
+
+  border-radius: 0;
+}
+
+.service-card .card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-fluid-md);
+}
+
+.service-card .s-no {
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+.service-card h3 {
+  margin-block: var(--space-2xs) var(--space-xs);
+  color: var(--green-800);
+}
+
+.service-card p {
+  flex: 1;
+  margin-block-end: var(--space-xs);
+  font-size: var(--fs-md);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* Roomier once the card itself is wide, regardless of viewport. */
+@container (min-width: 22rem) {
+  .service-card .card-body {
+    padding: var(--space-lg) var(--space-lg) var(--space-xl);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Review card
+------------------------------------------------------------------------------ */
+.review-card {
+  padding: var(--space-fluid-md);
+}
+
+.review-card .quote {
+  flex: 1;
+  margin-block-end: var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  line-height: var(--lh-snug);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.review-card .author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+}
+
+.review-card .author > div {
+  min-inline-size: 0;
+}
+
+.review-card .avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 2.75rem;
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  color: var(--green-800);
+  background-color: var(--sage-300);
+  border-radius: var(--radius-full);
+}
+
+.review-card .author b {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  font-weight: 500;
+  color: var(--text);
+}
+
+.review-card .author small {
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+.review-card .gicon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  margin-inline-start: auto;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  font-family: var(--font-serif);
+  font-size: var(--fs-base);
+  color: var(--ink-faint);
+}
+
+@container (min-width: 22rem) {
+  .review-card {
+    padding: var(--space-lg);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Stars
+   The rating is exposed to assistive tech via an aria-label on the wrapper and
+   the glyphs themselves are aria-hidden, so a screen reader announces
+   "Rated 5 out of 5" rather than "black star" five times.
+------------------------------------------------------------------------------ */
+.stars {
+  font-size: var(--fs-md);
+  letter-spacing: 3px;
+  color: var(--gold-500);
+}
+
+.review-card .stars {
+  margin-block-end: var(--space-sm);
+}

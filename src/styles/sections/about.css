@@ -1,0 +1,73 @@
+/* ============================================================================
+   SECTION — About the practitioner
+   ========================================================================= */
+
+.about {
+  overflow-x: clip;
+  color: var(--paper);
+  background-color: var(--green-800);
+}
+
+@media (--lg) {
+  .about .split {
+    grid-template-columns: 0.85fr 1.15fr;
+  }
+}
+
+.about-figure {
+  --ratio: 4 / 5;
+
+  inline-size: 100%;
+  max-inline-size: 26rem;
+  margin-inline: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+@media (--lg) {
+  .about-figure {
+    max-inline-size: none;
+    margin-inline: 0;
+  }
+}
+
+.about-quals {
+  position: absolute;
+  z-index: var(--z-raised);
+  inset-inline: var(--space-sm);
+  inset-block-end: var(--space-sm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+/* These chips float over a photograph, so the scrim has to carry the contrast
+   on its own — a light image must not be able to wash them out. At 0.88 alpha
+   the worst case (pure white behind) still gives --gold-200 7.1:1. */
+.about-quals .chip {
+  padding: var(--space-3xs) var(--space-xs);
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--gold-200);
+  background-color: rgb(20 42 29 / 0.88);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgb(184 147 76 / 0.4);
+  border-radius: var(--radius-xs);
+}
+
+.about h2 {
+  margin-block: var(--space-sm) var(--space-2xs);
+  color: var(--paper);
+}
+
+.about .role {
+  margin-block-end: var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  font-style: italic;
+  color: var(--gold-400);
+}
+
+.about .prose > p:not(.eyebrow) {
+  color: var(--text-on-dark);
+}

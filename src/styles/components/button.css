@@ -1,0 +1,106 @@
+/* ============================================================================
+   COMPONENT — Button
+   Every variant is at least --tap (44px) tall so it satisfies WCAG 2.5.8
+   without needing a separate mobile rule.
+   ========================================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-block-size: var(--tap);
+  padding: var(--space-xs) var(--space-lg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+  border-radius: var(--radius-xs);
+  cursor: pointer;
+
+  /* Explicit property list, not `all`. `all` would animate padding/size and
+     force a layout pass on every hover; these three are paint/composite only. */
+  transition:
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease);
+}
+
+/* Let the label wrap rather than overflow when the button is in a narrow
+   column (e.g. the stacked hero actions at 320px). */
+.btn > span:not(.arrow) {
+  min-inline-size: 0;
+}
+
+.btn-gold {
+  background-color: var(--gold-500);
+  color: var(--green-900);
+}
+
+.btn-ghost-light {
+  border: 1px solid rgb(255 255 255 / 0.4);
+  color: var(--paper);
+}
+
+/* Hover effects are gated behind a real pointer so tapping on a touch screen
+   does not leave a button stuck in its hover state. */
+@media (--hover-pointer) {
+  .btn-gold:hover {
+    background-color: var(--gold-400);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  .btn-ghost-light:hover {
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+    color: var(--green-900);
+  }
+
+  .btn:hover .arrow {
+    transform: translateX(4px);
+  }
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform var(--dur) var(--ease);
+}
+
+/* ----------------------------------------------------------------------------
+   .link-arrow — the "Book this →" inline call to action on cards
+------------------------------------------------------------------------------ */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  min-block-size: var(--tap);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green-700);
+  transition: color var(--dur) var(--ease);
+}
+
+.link-arrow .arrow {
+  color: var(--gold-ink);
+}
+
+@media (--hover-pointer) {
+  .link-arrow:hover {
+    color: var(--green-900);
+  }
+
+  .link-arrow:hover .arrow {
+    transform: translateX(5px);
+  }
+}

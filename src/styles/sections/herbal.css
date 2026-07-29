@@ -1,0 +1,99 @@
+/* ============================================================================
+   SECTION — Herbal preparations
+   ========================================================================= */
+
+.herbal {
+  /* Contains the offset sub-image below so its overhang cannot reach the
+     document edge. `clip` rather than `hidden` so no scroll container is
+     created (which would break sticky positioning in descendants). */
+  overflow-x: clip;
+  background-color: var(--surface);
+}
+
+.herbal-visual {
+  container-type: inline-size;
+  position: relative;
+  inline-size: 100%;
+  max-inline-size: 30rem;
+  margin-inline: auto;
+}
+
+@media (--lg) {
+  .herbal-visual {
+    max-inline-size: none;
+    margin-inline: 0;
+  }
+}
+
+.herbal-visual .main-img {
+  --ratio: 5 / 6;
+
+  box-shadow: var(--shadow-md);
+}
+
+/* Overlapping inset image. Like the hero badge, this only overlaps once its
+   container can absorb the overhang; below that it sits inline. The previous
+   `right: -28px; bottom: -34px` applied at every width and overflowed a 320px
+   viewport by ~8px. */
+.herbal-visual .sub-img {
+  --ratio: 1;
+
+  display: none;
+  inline-size: 46%;
+  border: 8px solid var(--paper);
+  box-shadow: var(--shadow-md);
+}
+
+@container (min-width: 24rem) {
+  .herbal-visual .sub-img {
+    display: block;
+    position: absolute;
+    inset-inline-end: max(-1.75rem, calc(var(--gutter) * -0.4));
+    inset-block-end: -2.125rem;
+  }
+}
+
+.herbal h2 {
+  margin-block: var(--space-sm) var(--space-md);
+  color: var(--green-800);
+}
+
+.herbal-list {
+  display: grid;
+  gap: var(--space-xs);
+  margin-block: var(--space-md) var(--space-fluid-md);
+  list-style: none;
+}
+
+.herbal-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  font-size: var(--fs-md);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.herbal-list .tick {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 1.375rem;
+  block-size: 1.375rem;
+  margin-block-start: 0.15rem;
+  font-size: var(--fs-2xs);
+  color: var(--gold-ink);
+  border: 1px solid var(--gold-500);
+  border-radius: var(--radius-full);
+}
+
+.herbal-note {
+  max-inline-size: var(--measure);
+  padding: var(--space-sm) var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  font-style: italic;
+  color: var(--text-muted);
+  background-color: var(--cream);
+  border-inline-start: 2px solid var(--gold-500);
+}

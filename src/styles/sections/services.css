@@ -1,0 +1,26 @@
+/* ============================================================================
+   SECTION — Services
+   ========================================================================= */
+
+.services {
+  background-color: var(--surface-alt);
+}
+
+/* Fluid up to three columns.
+   `minmax(min(100%, 17rem), 1fr)` is the safe form: the `min(100%, …)` term
+   stops the track from ever demanding more than the container, which is what
+   makes a bare `minmax(17rem, 1fr)` overflow below 272px + gutters.
+   `auto-fit` handles 1 -> 2 columns on its own between 320px and --lg; the
+   explicit three-column rule at --lg exists because six cards must land as
+   3 x 2 rather than the 4 + 2 that auto-fit would produce on a 1440px screen. */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-fluid-md);
+}
+
+@media (--lg) {
+  .services-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

@@ -1,0 +1,153 @@
+/* ============================================================================
+   SECTION — Footer
+
+   The previous build declared `grid-template-columns: 1.4fr 1fr 1fr 1fr` with
+   no media query at all, so a 320px phone rendered four columns roughly 36px
+   wide and every link overflowed its track. The grid below starts as a single
+   column and only earns more as there is room for them.
+   ========================================================================= */
+
+.footer {
+  color: var(--text-on-dark-muted);
+  background-color: var(--green-900);
+  padding-block-start: var(--space-fluid-xl);
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-fluid-lg);
+  padding-block-end: var(--space-fluid-lg);
+  border-block-end: 1px solid rgb(255 255 255 / 0.12);
+}
+
+/* Explicitly two, not `auto-fit`. auto-fit fits three ~198px tracks at 768px,
+   which strands the fourth column alone on a second row next to a column-wide
+   hole. Four columns of content want 1, 2 or 4 across — never 3. */
+@media (--sm) {
+  .footer-top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--lg) {
+  .footer-top {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  }
+}
+
+.footer-brand {
+  min-inline-size: 0;
+}
+
+.footer .brand .name b {
+  color: var(--paper);
+}
+
+.footer .brand .name small {
+  display: block;
+  color: var(--gold-300);
+}
+
+.footer .brand .mark {
+  color: var(--gold-300);
+  border-color: var(--gold-400);
+}
+
+.footer-about {
+  max-inline-size: 22rem;
+  margin-block-start: var(--space-md);
+  font-size: var(--fs-md);
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.footer-col {
+  min-inline-size: 0;
+}
+
+.footer-col h2 {
+  margin-block-end: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--gold-400);
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+/* 0.625rem of vertical padding on a 1.55 line-height 15px link yields a ~44px
+   target, so footer links meet the same minimum as buttons. */
+.footer-col a {
+  display: block;
+  padding-block: 0.625rem;
+  font-size: var(--fs-md);
+  color: var(--text-on-dark-muted);
+  overflow-wrap: break-word;
+  transition: color var(--dur-fast) var(--ease);
+}
+
+.footer-col p {
+  padding-block: var(--space-3xs);
+  font-size: var(--fs-md);
+  overflow-wrap: anywhere;
+}
+
+@media (--hover-pointer) {
+  .footer-col a:hover {
+    color: var(--gold-400);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Bottom bar
+------------------------------------------------------------------------------ */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  padding-block: var(--space-md);
+  /* Clears the iOS home indicator when the page is scrolled to the bottom. */
+  padding-block-end: calc(var(--space-md) + env(safe-area-inset-bottom, 0px));
+  font-size: var(--fs-sm);
+  color: rgb(255 255 255 / 0.55);
+}
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.socials a {
+  display: grid;
+  place-items: center;
+  inline-size: var(--tap);
+  block-size: var(--tap);
+  color: var(--text-on-dark-muted);
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--dur-fast) var(--ease),
+    background-color var(--dur-fast) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+}
+
+.socials svg {
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+@media (--hover-pointer) {
+  .socials a:hover {
+    color: var(--green-900);
+    background-color: var(--gold-500);
+    border-color: var(--gold-500);
+  }
+}
