@@ -1,432 +1,871 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>AyuHerbalCare — Ayurvedic Healing & Herbal Therapy</title>
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover is what makes env(safe-area-inset-*) resolve to real
+         values on notched phones; without it the insets are always 0. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#142a1d" />
 
-<!-- ============ HEADER ============ -->
-<header class="site-header" data-screen-label="Header">
-  <div class="wrap nav">
-    <a href="#top" class="brand">
-      <span class="mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c2.2 2 3.3 4.3 3.3 6.8 0 2.4-1.1 4.7-3.3 6.9-2.2-2.2-3.3-4.5-3.3-6.9C8.7 7.3 9.8 5 12 3Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M12 10.5V21" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
-      </span>
-      <span class="name"><b>AyuHerbalCare</b><small>Ayurveda · Herbal Therapy</small></span>
-    </a>
-    <nav class="nav-links">
+    <title>AyuHerbalCare — Ayurvedic Healing &amp; Herbal Therapy</title>
+    <meta
+      name="description"
+      content="Personalised Ayurvedic treatments and hand-prepared herbal therapies from a Registered Massage Therapist with over thirty years of healing experience. Shirodhara, RMT massage, hair-loss and skin-condition care."
+    />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="AyuHerbalCare — Ayurvedic Healing &amp; Herbal Therapy" />
+    <meta
+      property="og:description"
+      content="Personalised Ayurvedic treatments and hand-prepared herbal therapies, guided by thirty years of healing experience."
+    />
+    <meta property="og:locale" content="en" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <!-- Fonts. preconnect opens the TLS connection while the HTML is still
+         parsing; display=swap renders fallback text immediately so a slow font
+         delays nothing. This is the only third-party request on the page. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"
+    />
+
+    <!-- Marks the document as script-enabled BEFORE first paint. The reveal
+         animation's hidden state is scoped to `.js`, so if scripting is off or
+         broken the content is simply visible instead of permanently invisible. -->
+    <script>
+      document.documentElement.classList.add('js');
+    </script>
+
+    <script type="module" src="/src/main.js"></script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- ============ HEADER ============ -->
+    <header class="site-header">
+      <div class="wrap nav">
+        <a href="#top" class="brand" aria-label="AyuHerbalCare — home">
+          <span class="mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" focusable="false">
+              <path
+                d="M12 3c2.2 2 3.3 4.3 3.3 6.8 0 2.4-1.1 4.7-3.3 6.9-2.2-2.2-3.3-4.5-3.3-6.9C8.7 7.3 9.8 5 12 3Z"
+                stroke="currentColor"
+                stroke-width="1.1"
+                stroke-linejoin="round"
+              />
+              <path d="M12 10.5V21" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="name">
+            <b>AyuHerbalCare</b>
+            <small>Ayurveda · Herbal Therapy</small>
+          </span>
+        </a>
+
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#services">Services</a>
+          <a href="#process">Approach</a>
+          <a href="#herbal">Herbal Care</a>
+          <a href="#about">About</a>
+          <a href="#reviews">Reviews</a>
+        </nav>
+
+        <div class="nav-actions">
+          <a href="#contact" class="btn btn-gold nav-cta">Book a Session</a>
+          <button
+            type="button"
+            class="menu-toggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile" inert>
       <a href="#services">Services</a>
       <a href="#process">Approach</a>
       <a href="#herbal">Herbal Care</a>
       <a href="#about">About</a>
       <a href="#reviews">Reviews</a>
+      <a href="#contact" class="btn btn-gold">Book a Session</a>
     </nav>
-    <div class="nav-actions">
-      <a href="#contact" class="btn btn-gold nav-cta">Book a Session</a>
-      <button class="menu-toggle" aria-label="Open menu"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</header>
 
-<div class="mobile-menu">
-  <a href="#services">Services</a>
-  <a href="#process">Approach</a>
-  <a href="#herbal">Herbal Care</a>
-  <a href="#about">About</a>
-  <a href="#reviews">Reviews</a>
-  <a href="#contact" class="btn btn-gold">Book a Session</a>
-</div>
-
-<!-- ============ HERO ============ -->
-<section class="hero" id="top" data-screen-label="Hero">
-  <div class="hero-bg"></div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <div class="hero-eyebrow eyebrow light">Ancient wisdom · Modern care</div>
-      <h1>Restore your <em>balance</em>, the natural way.</h1>
-      <p class="lead">Personalised Ayurvedic treatments and hand-prepared herbal therapies — guided by thirty years of healing experience. Calm the body, quiet the mind, return to yourself.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn btn-gold">Book a Session <span class="arrow">→</span></a>
-        <a href="#services" class="btn btn-ghost-light">Explore Treatments</a>
-      </div>
-      <div class="hero-meta">
-        <div class="stat"><b>30+</b><span>Years of practice</span></div>
-        <div class="stat"><b>RMT</b><span>Registered therapist</span></div>
-        <div class="stat"><b>5.0</b><span>Google rating</span></div>
-      </div>
-    </div>
-    <div class="hero-visual reveal d1">
-      <div class="hero-figure"><div class="ph dark" data-label="Hero — shirodhara treatment in calm clinic"></div></div>
-      <div class="hero-badge">
-        <div>
-          <div class="g-stars">★★★★★</div>
-          <b>5.0</b>
-        </div>
-        <small>Rated by clients on<br/>Google Reviews</small>
-      </div>
-    </div>
-  </div>
-  <div class="hero-scroll"><span>Scroll</span><span class="line"></span></div>
-</section>
-
-<!-- ============ PHILOSOPHY ============ -->
-<section class="philosophy section-pad" data-screen-label="Philosophy">
-  <div class="wrap philosophy-grid">
-    <div class="reveal">
-      <div class="eyebrow">Our philosophy</div>
-      <h2>Healing that treats the root, not the symptom.</h2>
-      <p>Ayurveda sees you as a whole — body, mind and spirit in balance. Rather than chasing symptoms, we listen, assess your constitution, and design a path of treatment and herbal care made entirely for you.</p>
-      <p>Every oil, paste and remedy is prepared by hand in small batches, using traditional methods and fresh botanicals — never mass-produced.</p>
-      <p class="sig">— A calmer body begins with an honest diagnosis.</p>
-    </div>
-    <div class="pillars reveal d1">
-      <div class="pillar">
-        <span class="num">01</span>
-        <h4>Personalised</h4>
-        <p>Every treatment is built around your unique constitution and concerns.</p>
-      </div>
-      <div class="pillar">
-        <span class="num">02</span>
-        <h4>Hand-prepared</h4>
-        <p>Fresh herbal oils and pastes, made in small batches for each client.</p>
-      </div>
-      <div class="pillar">
-        <span class="num">03</span>
-        <h4>Time-honoured</h4>
-        <p>Authentic Ayurvedic techniques refined over three decades of practice.</p>
-      </div>
-      <div class="pillar">
-        <span class="num">04</span>
-        <h4>Whole-person</h4>
-        <p>We care for body and mind together, not one symptom at a time.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SERVICES ============ -->
-<section class="services section-pad" id="services" data-screen-label="Services">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow center">What we offer</div>
-      <h2>Treatments &amp; Therapies</h2>
-      <p>From deeply restorative Ayurvedic rituals to targeted therapeutic care — each session is tailored to where your body needs support most.</p>
-    </div>
-    <div class="services-grid">
-
-      <article class="service-card reveal">
-        <div class="card-img"><div class="ph" data-label="Shirodhara — warm oil flow on forehead"></div></div>
-        <div class="card-body">
-          <span class="s-no">01 — Signature ritual</span>
-          <h3>Shirodhara</h3>
-          <p>A continuous, warm stream of herbal oil poured over the forehead to quiet the nervous system, ease anxiety and deepen sleep.</p>
-          <a href="#contact" class="s-link">Book this <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-      <article class="service-card reveal d1">
-        <div class="card-img"><div class="ph" data-label="RMT therapeutic massage"></div></div>
-        <div class="card-body">
-          <span class="s-no">02 — Registered massage</span>
-          <h3>RMT Massage</h3>
-          <p>Therapeutic massage by a Registered Massage Therapist, blending clinical technique with warm Ayurvedic herbal oils.</p>
-          <a href="#contact" class="s-link">Book this <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-      <article class="service-card reveal d2">
-        <div class="card-img"><div class="ph" data-label="Herbal scalp & hair therapy"></div></div>
-        <div class="card-body">
-          <span class="s-no">03 — Scalp &amp; hair</span>
-          <h3>Hair-Loss Therapy</h3>
-          <p>Scalp treatments with custom herbal oils and head massage to strengthen roots, calm the scalp and encourage healthy growth.</p>
-          <a href="#contact" class="s-link">Book this <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-      <article class="service-card reveal">
-        <div class="card-img"><div class="ph" data-label="Consultation — pulse & constitution reading"></div></div>
-        <div class="card-body">
-          <span class="s-no">04 — Where everyone begins</span>
-          <h3>Ayurvedic Consultation</h3>
-          <p>A thorough sitting to understand your dosha, lifestyle and concerns — the foundation for every treatment plan we design.</p>
-          <a href="#contact" class="s-link">Book this <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-      <article class="service-card reveal d1">
-        <div class="card-img"><div class="ph" data-label="Herbal skin therapy"></div></div>
-        <div class="card-body">
-          <span class="s-no">05 — Skin &amp; complexion</span>
-          <h3>Skin-Condition Care</h3>
-          <p>Gentle, natural support for eczema, psoriasis, acne and dryness using hand-blended herbal pastes and oils.</p>
-          <a href="#contact" class="s-link">Book this <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-      <article class="service-card reveal d2">
-        <div class="card-img"><div class="ph gold" data-label="Personalised herbal program"></div></div>
-        <div class="card-body">
-          <span class="s-no">06 — Made for you</span>
-          <h3>Custom Herbal Plan</h3>
-          <p>A complete at-home routine of hand-prepared remedies, diet guidance and daily ritual to extend your healing beyond the clinic.</p>
-          <a href="#contact" class="s-link">Enquire <span class="arrow">→</span></a>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ============ THE AYURVEDIC WAY ============ -->
-<section class="process section-pad" id="process" data-screen-label="Process">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div class="eyebrow center light">How it works</div>
-      <h2>The Ayurvedic Way</h2>
-      <p>A calm, considered journey from first conversation to lasting balance.</p>
-    </div>
-    <div class="steps">
-      <div class="step reveal"><div class="dot">01</div><h4>Consult</h4><p>We sit together to understand your body, history and what brought you here.</p></div>
-      <div class="step reveal d1"><div class="dot">02</div><h4>Assess</h4><p>Pulse and constitution reading reveals your dosha balance and root concerns.</p></div>
-      <div class="step reveal d2"><div class="dot">03</div><h4>Treat</h4><p>Hands-on therapy with herbal oils, prepared fresh for your specific needs.</p></div>
-      <div class="step reveal d3"><div class="dot">04</div><h4>Restore</h4><p>A take-home herbal routine keeps the healing going between visits.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ HERBAL PREPARATIONS ============ -->
-<section class="herbal section-pad" id="herbal" data-screen-label="Herbal">
-  <div class="wrap herbal-grid">
-    <div class="herbal-visual reveal">
-      <div class="main-img"><div class="ph" data-label="Hand-blending herbal oils & pastes"></div></div>
-      <div class="sub-img"><div class="ph gold" data-label="Dried herbs & mortar"></div></div>
-    </div>
-    <div class="reveal d1">
-      <div class="eyebrow">Made by hand</div>
-      <h2>Herbal remedies, prepared fresh for you.</h2>
-      <p>We don't sell products off a shelf. Every oil, paste and powder is made by hand in small batches — chosen for your constitution and prepared for the treatment you receive.</p>
-      <ul class="herbal-list">
-        <li><span class="tick">✓</span><span>Fresh botanicals &amp; traditional cold-infused oils — no fillers or preservatives.</span></li>
-        <li><span class="tick">✓</span><span>Blended specifically for your dosha and concern.</span></li>
-        <li><span class="tick">✓</span><span>Used in your session, then sent home so your care continues.</span></li>
-      </ul>
-      <p class="herbal-note">“The remedy that heals you is the one made for you — not for everyone.”</p>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ABOUT THE DOCTOR ============ -->
-<section class="about section-pad" id="about" data-screen-label="About">
-  <div class="wrap about-grid">
-    <div class="about-figure reveal">
-      <div class="ph dark" data-label="Portrait — the practitioner"></div>
-      <div class="about-quals">
-        <span class="chip">RMT Registered</span>
-        <span class="chip">30+ Years</span>
-      </div>
-    </div>
-    <div class="reveal d1">
-      <div class="eyebrow light">Meet your practitioner</div>
-      <h2>Three decades of healing hands.</h2>
-      <p class="role">Registered Massage Therapist &amp; Ayurvedic Practitioner</p>
-      <p>For over thirty years, healing has been a calling, not just a profession. As a Registered Massage Therapist trained in traditional Ayurvedic practice, every client is met with patience, deep listening and remedies prepared by hand.</p>
-      <p>The belief is simple: true wellbeing comes from understanding the whole person — and treating the cause, gently and naturally.</p>
-      <div class="about-stats">
-        <div class="stat"><b>30+</b><span>Years experience</span></div>
-        <div class="stat"><b>RMT</b><span>Registered &amp; insured</span></div>
-        <div class="stat"><b>1000s</b><span>Clients cared for</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ REVIEWS ============ -->
-<section class="reviews section-pad" id="reviews" data-screen-label="Reviews">
-  <div class="wrap">
-    <div class="reviews-top reveal">
-      <div>
-        <div class="eyebrow">Kind words</div>
-        <h2>Loved by our clients</h2>
-      </div>
-      <div class="google-badge">
-        <span class="glogo"><span class="b">G</span><span class="r">o</span><span class="y">o</span><span class="b">g</span><span class="g">l</span><span class="r">e</span></span>
-        <div class="rate">
-          <b>5.0</b>
-          <div class="stars">★★★★★</div>
-          <small>Based on verified reviews</small>
-        </div>
-      </div>
-    </div>
-    <div class="reviews-grid">
-      <article class="review-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“The Shirodhara session was the most relaxed I've felt in years. I slept better that same night. Truly healing hands.”</p>
-        <div class="author"><span class="avatar">P</span><div><b>Priya M.</b><small>2 weeks ago</small></div><span class="gicon">G</span></div>
-      </article>
-      <article class="review-card reveal d1">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“After years of hair fall, the herbal scalp therapy actually worked. The custom oil smells incredible and my hair feels stronger.”</p>
-        <div class="author"><span class="avatar">R</span><div><b>Ravi S.</b><small>1 month ago</small></div><span class="gicon">G</span></div>
-      </article>
-      <article class="review-card reveal d2">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“So knowledgeable and so kind. The consultation explained things no one ever had. The massage was deeply therapeutic.”</p>
-        <div class="author"><span class="avatar">A</span><div><b>Aisha K.</b><small>1 month ago</small></div><span class="gicon">G</span></div>
-      </article>
-      <article class="review-card reveal">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“My eczema has calmed down so much with the herbal paste. Natural, gentle and it works. I recommend her to everyone.”</p>
-        <div class="author"><span class="avatar">J</span><div><b>Jasleen B.</b><small>2 months ago</small></div><span class="gicon">G</span></div>
-      </article>
-      <article class="review-card reveal d1">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“30 years of experience really shows. I came for back pain and left feeling renewed. The herbal oils are wonderful.”</p>
-        <div class="author"><span class="avatar">M</span><div><b>Michael T.</b><small>3 months ago</small></div><span class="gicon">G</span></div>
-      </article>
-      <article class="review-card reveal d2">
-        <div class="stars">★★★★★</div>
-        <p class="quote">“A calm, welcoming space and a practitioner who genuinely cares. The whole experience feels personal and authentic.”</p>
-        <div class="author"><span class="avatar">S</span><div><b>Simran D.</b><small>3 months ago</small></div><span class="gicon">G</span></div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- ============ CONTACT ============ -->
-<section class="contact section-pad" id="contact" data-screen-label="Contact">
-  <div class="wrap contact-grid">
-    <div class="contact-info reveal">
-      <div class="eyebrow">Get in touch</div>
-      <h2>Book your visit</h2>
-      <p>Begin with a consultation, or book a treatment directly. We'll confirm your appointment by phone or email within one business day.</p>
-
-      <div class="contact-detail">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6.6 3h3l1.4 4-2 1.4a12 12 0 0 0 5.6 5.6L16 12l4 1.4v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 6.2 2 2 0 0 1 6.6 3Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
-        <div><b>Phone</b><span>(000) 000-0000</span></div>
-      </div>
-      <div class="contact-detail">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.3"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
-        <div><b>Email</b><span>hello@ayuherbalcare.com</span></div>
-      </div>
-      <div class="contact-detail">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" stroke="currentColor" stroke-width="1.3"/></svg></span>
-        <div><b>Clinic</b><span>Your address here, City</span></div>
-      </div>
-      <div class="contact-detail">
-        <span class="ic"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.3"/><path d="M12 7.5V12l3 1.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <div style="flex:1">
-          <b>Hours</b>
-          <div class="hours-row"><span>Mon – Fri</span><span>9:00 – 6:00</span></div>
-          <div class="hours-row"><span>Saturday</span><span>10:00 – 4:00</span></div>
-          <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <form class="booking-form reveal d1" id="bookingForm" novalidate>
-        <h3>Request an appointment</h3>
-        <p class="form-sub">Tell us a little about what you're looking for.</p>
-        <div class="field-row">
-          <div class="field">
-            <label for="fname">First name</label>
-            <input id="fname" type="text" data-required placeholder="Your name" />
-            <span class="err-msg">Please enter your name.</span>
+    <main id="main">
+      <!-- ============ HERO ============ -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="hero-eyebrow eyebrow light">Ancient wisdom · Modern care</p>
+            <h1 id="hero-title">
+              Restore your
+              <em>balance</em>
+              , the natural way.
+            </h1>
+            <p class="lead">
+              Personalised Ayurvedic treatments and hand-prepared herbal therapies — guided by thirty years of healing
+              experience. Calm the body, quiet the mind, return to yourself.
+            </p>
+            <div class="hero-actions">
+              <a href="#contact" class="btn btn-gold">
+                Book a Session
+                <span class="arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="#services" class="btn btn-ghost-light">Explore Treatments</a>
+            </div>
+            <div class="stat-row">
+              <div class="stat">
+                <b>30+</b>
+                <span>Years of practice</span>
+              </div>
+              <div class="stat">
+                <b>RMT</b>
+                <span>Registered therapist</span>
+              </div>
+              <div class="stat">
+                <b>5.0</b>
+                <span>Google rating</span>
+              </div>
+            </div>
           </div>
-          <div class="field">
-            <label for="phone">Phone</label>
-            <input id="phone" type="tel" data-required placeholder="(000) 000-0000" />
-            <span class="err-msg">Please enter a phone number.</span>
+
+          <div class="hero-visual reveal d1">
+            <!-- Replace .ph with a real <img> / <picture>; see media.css for the
+                 exact pattern. This is the LCP element, so it must be eager. -->
+            <div class="media hero-figure">
+              <div class="ph dark" data-label="Hero — shirodhara treatment in calm clinic"></div>
+            </div>
+            <div class="hero-badge">
+              <div>
+                <p class="g-stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+                <b>5.0</b>
+              </div>
+              <small>
+                Rated by clients on
+                <br />
+                Google Reviews
+              </small>
+            </div>
           </div>
         </div>
-        <div class="field">
-          <label for="email">Email</label>
-          <input id="email" type="email" data-required placeholder="you@email.com" />
-          <span class="err-msg">Please enter a valid email.</span>
-        </div>
-        <div class="field">
-          <label for="service">Service of interest</label>
-          <select id="service" data-required>
-            <option value="">Select a service…</option>
-            <option>Ayurvedic Consultation</option>
-            <option>Shirodhara</option>
-            <option>RMT Massage</option>
-            <option>Hair-Loss Therapy</option>
-            <option>Skin-Condition Care</option>
-            <option>Custom Herbal Plan</option>
-          </select>
-          <span class="err-msg">Please choose a service.</span>
-        </div>
-        <div class="field">
-          <label for="message">Message <span style="text-transform:none;letter-spacing:0;opacity:.6">(optional)</span></label>
-          <textarea id="message" placeholder="Anything you'd like us to know…"></textarea>
-        </div>
-        <button type="submit" class="btn btn-gold">Request Appointment <span class="arrow">→</span></button>
-      </form>
-      <div class="form-success booking-form" id="formSuccess">
-        <div class="check">✓</div>
-        <h3>Thank you</h3>
-        <p>Your request has been received. We'll be in touch within one business day to confirm your appointment.</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ============ FOOTER ============ -->
-<footer class="footer" data-screen-label="Footer">
-  <div class="wrap">
-    <div class="footer-top">
-      <div>
-        <div class="brand">
-          <span class="mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c2.2 2 3.3 4.3 3.3 6.8 0 2.4-1.1 4.7-3.3 6.9-2.2-2.2-3.3-4.5-3.3-6.9C8.7 7.3 9.8 5 12 3Z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M12 10.5V21" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+        <div class="hero-scroll" aria-hidden="true">
+          <span>Scroll</span>
+          <span class="line"></span>
+        </div>
+      </section>
+
+      <!-- ============ PHILOSOPHY ============ -->
+      <section class="philosophy section-pad" aria-labelledby="philosophy-title">
+        <div class="wrap split">
+          <div class="reveal prose">
+            <p class="eyebrow">Our philosophy</p>
+            <h2 id="philosophy-title">Healing that treats the root, not the symptom.</h2>
+            <p>
+              Ayurveda sees you as a whole — body, mind and spirit in balance. Rather than chasing symptoms, we listen,
+              assess your constitution, and design a path of treatment and herbal care made entirely for you.
+            </p>
+            <p>
+              Every oil, paste and remedy is prepared by hand in small batches, using traditional methods and fresh
+              botanicals — never mass-produced.
+            </p>
+            <p class="sig">— A calmer body begins with an honest diagnosis.</p>
+          </div>
+
+          <div class="pillars reveal d1">
+            <div class="pillar">
+              <span class="num">01</span>
+              <h3>Personalised</h3>
+              <p>Every treatment is built around your unique constitution and concerns.</p>
+            </div>
+            <div class="pillar">
+              <span class="num">02</span>
+              <h3>Hand-prepared</h3>
+              <p>Fresh herbal oils and pastes, made in small batches for each client.</p>
+            </div>
+            <div class="pillar">
+              <span class="num">03</span>
+              <h3>Time-honoured</h3>
+              <p>Authentic Ayurvedic techniques refined over three decades of practice.</p>
+            </div>
+            <div class="pillar">
+              <span class="num">04</span>
+              <h3>Whole-person</h3>
+              <p>We care for body and mind together, not one symptom at a time.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ SERVICES ============ -->
+      <section class="services section-pad" id="services" aria-labelledby="services-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow center">What we offer</p>
+            <h2 id="services-title">Treatments &amp; Therapies</h2>
+            <p>
+              From deeply restorative Ayurvedic rituals to targeted therapeutic care — each session is tailored to where
+              your body needs support most.
+            </p>
+          </div>
+
+          <div class="services-grid">
+            <article class="service-card reveal">
+              <div class="media">
+                <div class="ph" data-label="Shirodhara — warm oil flow on forehead"></div>
+              </div>
+              <div class="card-body">
+                <span class="s-no">01 — Signature ritual</span>
+                <h3>Shirodhara</h3>
+                <p>
+                  A continuous, warm stream of herbal oil poured over the forehead to quiet the nervous system, ease
+                  anxiety and deepen sleep.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Book Shirodhara
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="service-card reveal d1">
+              <div class="media"><div class="ph" data-label="RMT therapeutic massage"></div></div>
+              <div class="card-body">
+                <span class="s-no">02 — Registered massage</span>
+                <h3>RMT Massage</h3>
+                <p>
+                  Therapeutic massage by a Registered Massage Therapist, blending clinical technique with warm Ayurvedic
+                  herbal oils.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Book RMT massage
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="service-card reveal d2">
+              <div class="media">
+                <div class="ph" data-label="Herbal scalp &amp; hair therapy"></div>
+              </div>
+              <div class="card-body">
+                <span class="s-no">03 — Scalp &amp; hair</span>
+                <h3>Hair-Loss Therapy</h3>
+                <p>
+                  Scalp treatments with custom herbal oils and head massage to strengthen roots, calm the scalp and
+                  encourage healthy growth.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Book hair-loss therapy
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="service-card reveal">
+              <div class="media">
+                <div class="ph" data-label="Consultation — pulse &amp; constitution reading"></div>
+              </div>
+              <div class="card-body">
+                <span class="s-no">04 — Where everyone begins</span>
+                <h3>Ayurvedic Consultation</h3>
+                <p>
+                  A thorough sitting to understand your dosha, lifestyle and concerns — the foundation for every
+                  treatment plan we design.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Book a consultation
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="service-card reveal d1">
+              <div class="media"><div class="ph" data-label="Herbal skin therapy"></div></div>
+              <div class="card-body">
+                <span class="s-no">05 — Skin &amp; complexion</span>
+                <h3>Skin-Condition Care</h3>
+                <p>
+                  Gentle, natural support for eczema, psoriasis, acne and dryness using hand-blended herbal pastes and
+                  oils.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Book skin-condition care
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="service-card reveal d2">
+              <div class="media">
+                <div class="ph gold" data-label="Personalised herbal program"></div>
+              </div>
+              <div class="card-body">
+                <span class="s-no">06 — Made for you</span>
+                <h3>Custom Herbal Plan</h3>
+                <p>
+                  A complete at-home routine of hand-prepared remedies, diet guidance and daily ritual to extend your
+                  healing beyond the clinic.
+                </p>
+                <a href="#contact" class="link-arrow">
+                  Enquire about a herbal plan
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ THE AYURVEDIC WAY ============ -->
+      <section class="process section-pad" id="process" aria-labelledby="process-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <p class="eyebrow center light">How it works</p>
+            <h2 id="process-title">The Ayurvedic Way</h2>
+            <p>A calm, considered journey from first conversation to lasting balance.</p>
+          </div>
+
+          <div class="steps">
+            <div class="step reveal">
+              <div class="dot" aria-hidden="true">01</div>
+              <h3>Consult</h3>
+              <p>We sit together to understand your body, history and what brought you here.</p>
+            </div>
+            <div class="step reveal d1">
+              <div class="dot" aria-hidden="true">02</div>
+              <h3>Assess</h3>
+              <p>Pulse and constitution reading reveals your dosha balance and root concerns.</p>
+            </div>
+            <div class="step reveal d2">
+              <div class="dot" aria-hidden="true">03</div>
+              <h3>Treat</h3>
+              <p>Hands-on therapy with herbal oils, prepared fresh for your specific needs.</p>
+            </div>
+            <div class="step reveal d3">
+              <div class="dot" aria-hidden="true">04</div>
+              <h3>Restore</h3>
+              <p>A take-home herbal routine keeps the healing going between visits.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ HERBAL PREPARATIONS ============ -->
+      <section class="herbal section-pad" id="herbal" aria-labelledby="herbal-title">
+        <div class="wrap split">
+          <div class="herbal-visual reveal">
+            <div class="media main-img">
+              <div class="ph" data-label="Hand-blending herbal oils &amp; pastes"></div>
+            </div>
+            <div class="media sub-img">
+              <div class="ph gold" data-label="Dried herbs &amp; mortar"></div>
+            </div>
+          </div>
+
+          <div class="reveal d1 prose">
+            <p class="eyebrow">Made by hand</p>
+            <h2 id="herbal-title">Herbal remedies, prepared fresh for you.</h2>
+            <p>
+              We don't sell products off a shelf. Every oil, paste and powder is made by hand in small batches — chosen
+              for your constitution and prepared for the treatment you receive.
+            </p>
+            <ul class="herbal-list">
+              <li>
+                <span class="tick" aria-hidden="true">✓</span>
+                <span>Fresh botanicals &amp; traditional cold-infused oils — no fillers or preservatives.</span>
+              </li>
+              <li>
+                <span class="tick" aria-hidden="true">✓</span>
+                <span>Blended specifically for your dosha and concern.</span>
+              </li>
+              <li>
+                <span class="tick" aria-hidden="true">✓</span>
+                <span>Used in your session, then sent home so your care continues.</span>
+              </li>
+            </ul>
+            <blockquote class="herbal-note">
+              “The remedy that heals you is the one made for you — not for everyone.”
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ABOUT THE PRACTITIONER ============ -->
+      <section class="about section-pad" id="about" aria-labelledby="about-title">
+        <div class="wrap split">
+          <div class="media about-figure reveal">
+            <div class="ph dark" data-label="Portrait — the practitioner"></div>
+            <div class="about-quals">
+              <span class="chip">RMT Registered</span>
+              <span class="chip">30+ Years</span>
+            </div>
+          </div>
+
+          <div class="reveal d1">
+            <p class="eyebrow light">Meet your practitioner</p>
+            <h2 id="about-title">Three decades of healing hands.</h2>
+            <p class="role">Registered Massage Therapist &amp; Ayurvedic Practitioner</p>
+            <div class="prose">
+              <p>
+                For over thirty years, healing has been a calling, not just a profession. As a Registered Massage
+                Therapist trained in traditional Ayurvedic practice, every client is met with patience, deep listening
+                and remedies prepared by hand.
+              </p>
+              <p>
+                The belief is simple: true wellbeing comes from understanding the whole person — and treating the cause,
+                gently and naturally.
+              </p>
+            </div>
+            <div class="stat-row">
+              <div class="stat">
+                <b>30+</b>
+                <span>Years experience</span>
+              </div>
+              <div class="stat">
+                <b>RMT</b>
+                <span>Registered &amp; insured</span>
+              </div>
+              <div class="stat">
+                <b>1000s</b>
+                <span>Clients cared for</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ REVIEWS ============ -->
+      <section class="reviews section-pad" id="reviews" aria-labelledby="reviews-title">
+        <div class="wrap">
+          <div class="reviews-top reveal">
+            <div>
+              <p class="eyebrow">Kind words</p>
+              <h2 id="reviews-title">Loved by our clients</h2>
+            </div>
+            <div class="google-badge">
+              <span class="glogo" role="img" aria-label="Google">
+                <span class="b" aria-hidden="true">G</span>
+                <span class="r" aria-hidden="true">o</span>
+                <span class="y" aria-hidden="true">o</span>
+                <span class="b" aria-hidden="true">g</span>
+                <span class="g" aria-hidden="true">l</span>
+                <span class="r" aria-hidden="true">e</span>
+              </span>
+              <div class="rate">
+                <b>5.0</b>
+                <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+                <small>Based on verified reviews</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="reviews-grid">
+            <article class="review-card reveal">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “The Shirodhara session was the most relaxed I've felt in years. I slept better that same night. Truly
+                healing hands.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">P</span>
+                <div>
+                  <b>Priya M.</b>
+                  <small>2 weeks ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+
+            <article class="review-card reveal d1">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “After years of hair fall, the herbal scalp therapy actually worked. The custom oil smells incredible
+                and my hair feels stronger.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">R</span>
+                <div>
+                  <b>Ravi S.</b>
+                  <small>1 month ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+
+            <article class="review-card reveal d2">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “So knowledgeable and so kind. The consultation explained things no one ever had. The massage was deeply
+                therapeutic.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">A</span>
+                <div>
+                  <b>Aisha K.</b>
+                  <small>1 month ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+
+            <article class="review-card reveal">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “My eczema has calmed down so much with the herbal paste. Natural, gentle and it works. I recommend her
+                to everyone.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">J</span>
+                <div>
+                  <b>Jasleen B.</b>
+                  <small>2 months ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+
+            <article class="review-card reveal d1">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “30 years of experience really shows. I came for back pain and left feeling renewed. The herbal oils are
+                wonderful.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">M</span>
+                <div>
+                  <b>Michael T.</b>
+                  <small>3 months ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+
+            <article class="review-card reveal d2">
+              <p class="stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
+              <blockquote class="quote">
+                “A calm, welcoming space and a practitioner who genuinely cares. The whole experience feels personal and
+                authentic.”
+              </blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">S</span>
+                <div>
+                  <b>Simran D.</b>
+                  <small>3 months ago</small>
+                </div>
+                <span class="gicon" role="img" aria-label="Posted on Google">G</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CONTACT ============ -->
+      <section class="contact section-pad" id="contact" aria-labelledby="contact-title">
+        <div class="wrap split">
+          <div class="contact-info reveal">
+            <p class="eyebrow">Get in touch</p>
+            <h2 id="contact-title">Book your visit</h2>
+            <p>
+              Begin with a consultation, or book a treatment directly. We'll confirm your appointment by phone or email
+              within one business day.
+            </p>
+
+            <!-- TODO(owner): replace the placeholder phone, email and address below. -->
+            <div class="contact-detail">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path
+                    d="M6.6 3h3l1.4 4-2 1.4a12 12 0 0 0 5.6 5.6L16 12l4 1.4v3a2 2 0 0 1-2.2 2A16 16 0 0 1 4 6.2 2 2 0 0 1 6.6 3Z"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <div class="detail-body">
+                <b>Phone</b>
+                <a href="tel:+10000000000">(000) 000-0000</a>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="1.3" />
+                  <path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+                </svg>
+              </span>
+              <div class="detail-body">
+                <b>Email</b>
+                <a href="mailto:hello@ayuherbalcare.com">hello@ayuherbalcare.com</a>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path
+                    d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    stroke-linejoin="round"
+                  />
+                  <circle cx="12" cy="10" r="2.4" stroke="currentColor" stroke-width="1.3" />
+                </svg>
+              </span>
+              <div class="detail-body">
+                <b>Clinic</b>
+                <address class="value">Your address here, City</address>
+              </div>
+            </div>
+
+            <div class="contact-detail">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                  <circle cx="12" cy="12" r="8.4" stroke="currentColor" stroke-width="1.3" />
+                  <path
+                    d="M12 7.5V12l3 1.8"
+                    stroke="currentColor"
+                    stroke-width="1.3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <div class="detail-body">
+                <b id="hours-label">Hours</b>
+                <dl class="hours" aria-labelledby="hours-label">
+                  <div class="hours-row">
+                    <dt>Mon – Fri</dt>
+                    <dd>9:00 – 6:00</dd>
+                  </div>
+                  <div class="hours-row">
+                    <dt>Saturday</dt>
+                    <dd>10:00 – 4:00</dd>
+                  </div>
+                  <div class="hours-row">
+                    <dt>Sunday</dt>
+                    <dd>Closed</dd>
+                  </div>
+                </dl>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <!-- No backend yet: submitting reveals the confirmation panel and sends
+                 nothing. Every control already has a name, so wiring an endpoint is
+                 an `action`/`method` pair away. See src/scripts/form.js. -->
+            <form class="booking-form reveal d1" id="bookingForm" novalidate>
+              <h3>Request an appointment</h3>
+              <p class="form-sub">Tell us a little about what you're looking for.</p>
+
+              <div class="field-row">
+                <div class="field">
+                  <label for="fname">First name</label>
+                  <input
+                    id="fname"
+                    name="firstName"
+                    type="text"
+                    autocomplete="given-name"
+                    placeholder="Your name"
+                    required
+                    aria-describedby="fname-err"
+                  />
+                  <span class="err-msg" id="fname-err" role="alert">Please enter your name.</span>
+                </div>
+
+                <div class="field">
+                  <label for="phone">Phone</label>
+                  <input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    autocomplete="tel"
+                    inputmode="tel"
+                    placeholder="(000) 000-0000"
+                    required
+                    aria-describedby="phone-err"
+                  />
+                  <span class="err-msg" id="phone-err" role="alert">Please enter a phone number.</span>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="email">Email</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  autocomplete="email"
+                  inputmode="email"
+                  placeholder="you@email.com"
+                  required
+                  aria-describedby="email-err"
+                />
+                <span class="err-msg" id="email-err" role="alert">Please enter a valid email.</span>
+              </div>
+
+              <div class="field">
+                <label for="service">Service of interest</label>
+                <select id="service" name="service" required aria-describedby="service-err">
+                  <option value="">Select a service…</option>
+                  <option>Ayurvedic Consultation</option>
+                  <option>Shirodhara</option>
+                  <option>RMT Massage</option>
+                  <option>Hair-Loss Therapy</option>
+                  <option>Skin-Condition Care</option>
+                  <option>Custom Herbal Plan</option>
+                </select>
+                <span class="err-msg" id="service-err" role="alert">Please choose a service.</span>
+              </div>
+
+              <div class="field">
+                <label for="message">
+                  Message
+                  <span class="optional">(optional)</span>
+                </label>
+                <textarea id="message" name="message" rows="3" placeholder="Anything you'd like us to know…"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-gold">
+                Request Appointment
+                <span class="arrow" aria-hidden="true">→</span>
+              </button>
+            </form>
+
+            <div class="form-success booking-form" id="formSuccess" role="status" tabindex="-1">
+              <div class="check" aria-hidden="true">✓</div>
+              <h3>Thank you</h3>
+              <p>
+                Your request has been received. We'll be in touch within one business day to confirm your appointment.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      <div class="wrap">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <div class="brand">
+              <span class="mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                  <path
+                    d="M12 3c2.2 2 3.3 4.3 3.3 6.8 0 2.4-1.1 4.7-3.3 6.9-2.2-2.2-3.3-4.5-3.3-6.9C8.7 7.3 9.8 5 12 3Z"
+                    stroke="currentColor"
+                    stroke-width="1.1"
+                    stroke-linejoin="round"
+                  />
+                  <path d="M12 10.5V21" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" />
+                </svg>
+              </span>
+              <span class="name">
+                <b>AyuHerbalCare</b>
+                <small>Ayurveda · Herbal Therapy</small>
+              </span>
+            </div>
+            <p class="footer-about">
+              Personalised Ayurvedic treatments and hand-prepared herbal therapies, guided by thirty years of healing
+              experience.
+            </p>
+          </div>
+
+          <nav class="footer-col" aria-labelledby="footer-explore">
+            <h2 id="footer-explore">Explore</h2>
+            <ul>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#process">The Ayurvedic Way</a></li>
+              <li><a href="#herbal">Herbal Care</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#reviews">Reviews</a></li>
+            </ul>
+          </nav>
+
+          <nav class="footer-col" aria-labelledby="footer-services">
+            <h2 id="footer-services">Services</h2>
+            <ul>
+              <li><a href="#contact">Shirodhara</a></li>
+              <li><a href="#contact">RMT Massage</a></li>
+              <li><a href="#contact">Hair-Loss Therapy</a></li>
+              <li><a href="#contact">Consultation</a></li>
+              <li><a href="#contact">Skin-Condition Care</a></li>
+            </ul>
+          </nav>
+
+          <div class="footer-col">
+            <h2 id="footer-visit">Visit</h2>
+            <p>Your address here, City</p>
+            <p><a href="tel:+10000000000">(000) 000-0000</a></p>
+            <p><a href="mailto:hello@ayuherbalcare.com">hello@ayuherbalcare.com</a></p>
+            <p>
+              <a href="#contact">
+                Book a session
+                <span aria-hidden="true">→</span>
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <span>
+            ©
+            <span id="year">2026</span>
+            AyuHerbalCare. All rights reserved.
           </span>
-          <span class="name"><b>AyuHerbalCare</b><small>Ayurveda · Herbal Therapy</small></span>
+          <!-- TODO(owner): swap "#" for the real profile URLs. -->
+          <div class="socials">
+            <a href="#" aria-label="AyuHerbalCare on Instagram">
+              <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.4" />
+                <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4" />
+                <circle cx="17" cy="7" r="1.1" fill="currentColor" />
+              </svg>
+            </a>
+            <a href="#" aria-label="AyuHerbalCare on Facebook">
+              <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
+                <path
+                  d="M14 8.5h2V5.5h-2.3C11.6 5.5 10.5 7 10.5 9v1.5H8.5v3h2V21h3v-7.5h2.2l.5-3H13.5V9c0-.4.2-.5.5-.5Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+            <a href="#" aria-label="AyuHerbalCare on WhatsApp">
+              <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
+                <path
+                  d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </a>
+          </div>
         </div>
-        <p class="footer-about">Personalised Ayurvedic treatments and hand-prepared herbal therapies, guided by thirty years of healing experience.</p>
       </div>
-      <div class="footer-col">
-        <h5>Explore</h5>
-        <a href="#services">Services</a>
-        <a href="#process">The Ayurvedic Way</a>
-        <a href="#herbal">Herbal Care</a>
-        <a href="#about">About</a>
-        <a href="#reviews">Reviews</a>
-      </div>
-      <div class="footer-col">
-        <h5>Services</h5>
-        <a href="#contact">Shirodhara</a>
-        <a href="#contact">RMT Massage</a>
-        <a href="#contact">Hair-Loss Therapy</a>
-        <a href="#contact">Consultation</a>
-        <a href="#contact">Skin-Condition Care</a>
-      </div>
-      <div class="footer-col">
-        <h5>Visit</h5>
-        <p>Your address here, City</p>
-        <p>(000) 000-0000</p>
-        <p>hello@ayuherbalcare.com</p>
-        <a href="#contact">Book a session →</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© <span id="year">2026</span> AyuHerbalCare. All rights reserved.</span>
-      <div class="socials">
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.4"/><circle cx="17" cy="7" r="1.1" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M14 8.5h2V5.5h-2.3C11.6 5.5 10.5 7 10.5 9v1.5H8.5v3h2V21h3v-7.5h2.2l.5-3H13.5V9c0-.4.2-.5.5-.5Z" fill="currentColor"/></svg></a>
-        <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="none"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></a>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<script src="script.js"></script>
-</body>
+    </footer>
+  </body>
 </html>
