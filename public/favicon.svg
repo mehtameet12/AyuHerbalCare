@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="AyuHerbalCare">
+  <rect width="32" height="32" rx="6" fill="#142a1d" />
+  <g stroke="#c9a868" stroke-width="1.6" fill="none" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M16 6.5c3 2.7 4.5 5.8 4.5 9.2 0 3.3-1.5 6.4-4.5 9.4-3-3-4.5-6.1-4.5-9.4 0-3.4 1.5-6.5 4.5-9.2Z" />
+    <path d="M16 16.5V26" />
+  </g>
+</svg>
