@@ -1,0 +1,107 @@
+/* ============================================================================
+   SECTION — The Ayurvedic Way (process steps)
+   ========================================================================= */
+
+.process {
+  overflow: hidden;
+  color: var(--paper);
+  background-color: var(--green-900);
+}
+
+.process .section-head h2 {
+  color: var(--paper);
+}
+
+.process .section-head p {
+  color: var(--text-on-dark-muted);
+}
+
+.steps {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-fluid-lg) var(--space-md);
+  counter-reset: step;
+}
+
+@media (--sm) {
+  .steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--lg) {
+  .steps {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+}
+
+/* The connecting rule only makes sense when all four steps sit on one row.
+   It is drawn from --lg up and is decorative, so it is hidden from AT. */
+.steps::before {
+  content: "";
+  position: absolute;
+  display: none;
+  inset-block-start: 2rem;
+  inset-inline: 12%;
+  block-size: 1px;
+  background-color: rgb(184 147 76 / 0.35);
+}
+
+@media (--lg) {
+  .steps::before {
+    display: block;
+  }
+}
+
+.step {
+  position: relative;
+  min-inline-size: 0;
+  text-align: center;
+}
+
+@media (--lg) {
+  .step {
+    padding-inline: var(--space-md);
+  }
+}
+
+.step .dot {
+  display: grid;
+  place-items: center;
+  position: relative;
+  inline-size: 4rem;
+  block-size: 4rem;
+  margin: 0 auto var(--space-md);
+  font-family: var(--font-serif);
+  font-size: var(--fs-h4);
+  color: var(--gold-400);
+  background-color: var(--green-900);
+  border: 1px solid var(--gold-500);
+  border-radius: var(--radius-full);
+  transition:
+    background-color var(--dur) var(--ease),
+    color var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+
+@media (--hover-pointer) {
+  .step:hover .dot {
+    color: var(--green-900);
+    background-color: var(--gold-500);
+    transform: scale(1.06);
+  }
+}
+
+.step h3 {
+  margin-block-end: var(--space-2xs);
+  font-size: var(--fs-h4);
+  color: var(--paper);
+}
+
+.step p {
+  font-size: var(--fs-md);
+  color: var(--text-on-dark-muted);
+  text-wrap: pretty;
+}

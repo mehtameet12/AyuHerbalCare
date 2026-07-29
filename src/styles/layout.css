@@ -1,0 +1,167 @@
+/* ============================================================================
+   LAYOUT — containers, section rhythm, shared grid primitives
+   ========================================================================= */
+
+/* ----------------------------------------------------------------------------
+   .wrap — the one horizontal container
+   `width: 100%` + `max-width` + `margin-inline: auto` never overflows the way a
+   fixed width does. The gutter uses max() against the safe-area insets so
+   content clears the notch when the phone is held sideways (requires
+   `viewport-fit=cover` on the viewport meta tag).
+------------------------------------------------------------------------------ */
+.wrap {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: max(var(--gutter), env(safe-area-inset-left, 0px))
+    max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+
+/* ----------------------------------------------------------------------------
+   Sections
+------------------------------------------------------------------------------ */
+section {
+  position: relative;
+}
+
+.section-pad {
+  padding-block: var(--section-pad);
+}
+
+/* Centred intro block above a grid. --container-narrow caps the measure so the
+   supporting paragraph never runs to 140 characters on a 1920px monitor. */
+.section-head {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  margin-block-end: var(--space-fluid-xl);
+  text-align: center;
+}
+
+.section-head h2 {
+  margin-block: var(--space-sm) var(--space-xs);
+  color: var(--green-800);
+}
+
+/* :not(.eyebrow) matters — the eyebrow is a <p> too, and a bare `.section-head p`
+   rule outranks `.eyebrow` on specificity and would repaint it. */
+.section-head > p:not(.eyebrow) {
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* ----------------------------------------------------------------------------
+   Two-column "split" — the shape used by philosophy / herbal / about / contact
+   One column on phones and tablet portrait, two from --lg. Declared once here
+   instead of four times in the section files.
+------------------------------------------------------------------------------ */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-fluid-xl);
+  align-items: center;
+}
+
+@media (--lg) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2.5rem, 1rem + 5vw, 5.25rem);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Prose measure
+------------------------------------------------------------------------------ */
+.prose > p:not(.eyebrow) {
+  max-inline-size: var(--measure);
+  margin-block-end: var(--space-sm);
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+.prose > p:last-child {
+  margin-block-end: 0;
+}
+
+/* ----------------------------------------------------------------------------
+   .eyebrow — the small tracked label above every section heading
+------------------------------------------------------------------------------ */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+.eyebrow::before {
+  content: "";
+  flex: none;
+  inline-size: 1.625rem;
+  block-size: 1px;
+  background-color: var(--gold-500);
+}
+
+.eyebrow.center {
+  justify-content: center;
+}
+
+.eyebrow.center::after {
+  content: "";
+  flex: none;
+  inline-size: 1.625rem;
+  block-size: 1px;
+  background-color: var(--gold-500);
+}
+
+/* On dark surfaces --gold-ink is unreadable; --gold-400 is 6.7:1 there. */
+.eyebrow.light {
+  color: var(--gold-400);
+}
+
+.eyebrow.light::before,
+.eyebrow.light::after {
+  background-color: var(--gold-400);
+}
+
+/* ----------------------------------------------------------------------------
+   .stat-row — the "30+ / RMT / 5.0" figure rows in the hero and about sections
+   Uses a container query, not a media query: this row sits inside a grid column
+   whose width depends on whether the parent split has collapsed, so the
+   viewport is the wrong signal. Falls back to the wrapped flex layout below on
+   engines without container query support.
+------------------------------------------------------------------------------ */
+.stat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md) var(--space-fluid-lg);
+  margin-block-start: var(--space-fluid-lg);
+  padding-block-start: var(--space-md);
+  border-block-start: 1px solid var(--border-on-dark);
+}
+
+.stat-row .stat {
+  flex: 1 1 auto;
+  min-inline-size: 6.5rem;
+}
+
+.stat-row .stat b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--gold-400);
+}
+
+.stat-row .stat span {
+  display: block;
+  margin-block-start: var(--space-3xs);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--text-on-dark-muted);
+}

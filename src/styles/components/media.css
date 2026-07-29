@@ -1,0 +1,112 @@
+/* ============================================================================
+   COMPONENT — Media frame + image placeholders
+
+   .media is the box a photograph goes in. It owns the aspect ratio, so the
+   space is reserved before the image loads and swapping the placeholder for a
+   real <img> or <picture> causes zero layout shift (good CLS).
+
+   Drop-in replacement for a placeholder:
+
+     <div class="media" style="--ratio: 4/5">
+       <img src="/assets/hero-800.avif"
+            srcset="/assets/hero-560.avif 560w, /assets/hero-800.avif 800w,
+                    /assets/hero-1200.avif 1200w"
+            sizes="(min-width: 64rem) 42vw, 92vw"
+            width="800" height="1000"
+            alt="Shirodhara treatment in the clinic"
+            loading="lazy" decoding="async">
+     </div>
+
+   Use loading="eager" + fetchpriority="high" for the hero image only; it is
+   the LCP element and lazy-loading it would delay the largest paint.
+   ========================================================================= */
+
+.media {
+  --ratio: 4 / 3;
+
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--ratio);
+  border-radius: var(--radius-md);
+  background-color: var(--sage-200);
+}
+
+.media > img,
+.media > picture,
+.media > picture > img,
+.media > video {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}
+
+/* Browsers without aspect-ratio (pre-2021) get a usable minimum instead of a
+   collapsed zero-height box. */
+@supports not (aspect-ratio: 1) {
+  .media {
+    min-block-size: 15rem;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   .ph — temporary placeholder standing in for a photograph.
+   Delete this rule once every .media holds a real image.
+------------------------------------------------------------------------------ */
+.ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  background-color: var(--sage-200);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 11px,
+    rgb(31 61 43 / 0.05) 11px,
+    rgb(31 61 43 / 0.05) 22px
+  );
+}
+
+.ph::after {
+  content: attr(data-label);
+  max-inline-size: calc(100% - 1.5rem);
+  margin: var(--space-xs);
+  padding: var(--space-3xs) var(--space-2xs);
+  font-family: var(--font-sans);
+  font-size: var(--fs-2xs);
+  line-height: 1.35;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--green-700);
+  background-color: rgb(251 248 240 / 0.86);
+  border: 1px solid rgb(31 61 43 / 0.15);
+}
+
+.ph.dark {
+  background-color: var(--green-700);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 11px,
+    rgb(255 255 255 / 0.04) 11px,
+    rgb(255 255 255 / 0.04) 22px
+  );
+}
+
+.ph.dark::after {
+  color: var(--paper);
+  background-color: rgb(20 42 29 / 0.62);
+  border-color: rgb(255 255 255 / 0.18);
+}
+
+.ph.gold {
+  background-color: var(--gold-200);
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 11px,
+    rgb(160 124 56 / 0.08) 11px,
+    rgb(160 124 56 / 0.08) 22px
+  );
+}

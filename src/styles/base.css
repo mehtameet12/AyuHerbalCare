@@ -1,0 +1,272 @@
+/* ============================================================================
+   BASE — reset, document defaults, typography, global a11y affordances
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* No font-size override here on purpose. Setting `html { font-size: 62.5% }`
+     or a px value overrides the user's browser text-size preference; every rem
+     in this codebase is relative to whatever they chose. */
+  scroll-behavior: smooth;
+
+  /* Opts out of the mobile "font boosting" that inflates text on rotation.
+     Written unprefixed: Lightning CSS emits the -moz- variant and strips any
+     hand-written -webkit- one. That is fine here — Chrome/Android honours the
+     unprefixed property, and iOS Safari only boosts on pages that lack a
+     width=device-width viewport, which this page has. */
+  text-size-adjust: 100%;
+
+  /* Safety net, not a fix. Every known overflow is fixed at its source and
+     verified by `npm run test:responsive`; this only stops an unforeseen
+     future one from producing a horizontal scrollbar. `clip` is used rather
+     than `hidden` because `hidden` silently turns the root into a scroll
+     container and breaks `position: sticky` in descendants. */
+  overflow-x: clip;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: 300;
+  line-height: var(--lh-body);
+  color: var(--text);
+  background-color: var(--surface);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Headings
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.01em;
+  /* Stops a long single word (e.g. a URL or a compound) from pushing the
+     layout wider than the viewport at 320px. */
+  overflow-wrap: break-word;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+h4 {
+  font-size: var(--fs-h4);
+}
+
+p {
+  overflow-wrap: break-word;
+}
+
+/* --------------------------------------------------------------------------
+   Media
+   Every replaced element is fluid by default and carries its intrinsic ratio,
+   so an <img width height> reserves the right box before it loads (zero CLS).
+   -------------------------------------------------------------------------- */
+img,
+picture,
+video,
+canvas,
+svg,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+svg {
+  fill: currentcolor;
+}
+
+/* --------------------------------------------------------------------------
+   Interactive elements
+   -------------------------------------------------------------------------- */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+textarea {
+  resize: vertical;
+}
+
+ul[class],
+ol[class] {
+  list-style: none;
+}
+
+/* <address> is used for the clinic location; the UA default italic is wrong here. */
+address {
+  font-style: normal;
+}
+
+blockquote {
+  quotes: none;
+}
+
+/* --------------------------------------------------------------------------
+   Focus
+   Keyboard-only ring (`:focus-visible`) so pointer users do not see it, but it
+   is never removed — components must not set `outline: none` without
+   substituting an equivalent indicator.
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: var(--focus-width) solid var(--focus-ring);
+  outline-offset: var(--focus-offset);
+  border-radius: var(--radius-xs);
+}
+
+/* Older engines without :focus-visible still get a visible ring. */
+@supports not selector(:focus-visible) {
+  :focus {
+    outline: var(--focus-width) solid var(--focus-ring);
+    outline-offset: var(--focus-offset);
+  }
+}
+
+/* Sections rendered on --green-800/900 re-point the ring so it keeps its 3:1. */
+.hero,
+.process,
+.about,
+.footer,
+.mobile-menu,
+.booking-form {
+  --focus-ring: var(--gold-300);
+}
+
+/* --------------------------------------------------------------------------
+   Anchor navigation
+   The header is fixed, so an in-page target must reserve its own height or it
+   lands underneath. --header-h is a token, so this can never drift out of sync
+   with the actual header the way a hard-coded offset does.
+   -------------------------------------------------------------------------- */
+[id] {
+  scroll-margin-block-start: calc(var(--header-h) + var(--space-md));
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+/* Visible to assistive tech, invisible on screen. */
+.visually-hidden:not(:focus, :active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  z-index: var(--z-skip);
+  top: var(--space-2xs);
+  left: var(--space-2xs);
+  padding: var(--space-xs) var(--space-md);
+  min-height: var(--tap);
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--paper);
+  background-color: var(--green-800);
+  border-radius: var(--radius-xs);
+  transform: translateY(calc(-100% - var(--space-lg)));
+  transition: transform var(--dur-fast) var(--ease);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* Scroll lock for the open mobile drawer. Applied to <html> rather than <body>
+   so it cannot clobber the `overflow-x: clip` safety net above. */
+.is-locked,
+.is-locked body {
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   Reduced motion
+   Zeroing the duration tokens disables every transition and animation that
+   goes through the design system in one place, rather than relying on each
+   component to remember.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0.01ms;
+    --dur: 0.01ms;
+    --dur-slow: 0.01ms;
+    --dur-reveal: 0.01ms;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Forced-colors / high-contrast mode
+   -------------------------------------------------------------------------- */
+@media (forced-colors: active) {
+  .btn,
+  .service-card,
+  .review-card,
+  .step .dot {
+    border: 1px solid currentcolor;
+  }
+}

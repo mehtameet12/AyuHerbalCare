@@ -1,0 +1,31 @@
+/* ============================================================================
+   AyuHerbalCare — stylesheet entry point
+
+   Import order is the cascade order: tokens define the vocabulary, base sets
+   document defaults, layout provides shared structure, components are reusable
+   pieces, sections are one-off page regions that may lean on all of the above.
+
+   Vite + Lightning CSS inline every @import at build time, so this ships as a
+   single minified file — there is no runtime request waterfall.
+   ========================================================================= */
+
+@import "./tokens.css";
+@import "./base.css";
+@import "./layout.css";
+
+@import "./components/button.css";
+@import "./components/card.css";
+@import "./components/form.css";
+@import "./components/media.css";
+@import "./components/reveal.css";
+
+@import "./sections/header.css";
+@import "./sections/hero.css";
+@import "./sections/philosophy.css";
+@import "./sections/services.css";
+@import "./sections/process.css";
+@import "./sections/herbal.css";
+@import "./sections/about.css";
+@import "./sections/reviews.css";
+@import "./sections/contact.css";
+@import "./sections/footer.css";

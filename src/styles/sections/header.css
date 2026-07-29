@@ -1,0 +1,359 @@
+/* ============================================================================
+   SECTION — Site header + mobile drawer
+
+   Breakpoint decision: the full desktop navigation measures ~870px (brand 273 +
+   links 432 + CTA 164). The previous build only collapsed it below 760px, so
+   every device between 761px and ~900px — iPad Mini (768) and iPad portrait
+   (810/820), i.e. two of the most common tablets — rendered a nav that could
+   not fit and overflowed the viewport. The drawer therefore holds until --lg
+   (1024px), where the measured requirement (~830px after the gap trim below)
+   clears the available 931px with room to spare.
+   ========================================================================= */
+
+.site-header {
+  position: fixed;
+  z-index: var(--z-header);
+  inset-block-start: 0;
+  inset-inline: 0;
+  padding-block-start: env(safe-area-inset-top, 0px);
+  transition:
+    background-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    backdrop-filter var(--dur) var(--ease);
+}
+
+/* Scrolled state changes paint properties only. The previous build animated
+   `padding-block` via `transition: all`, forcing a layout pass on every scroll
+   toggle; the height change now happens on .nav, which is inside a fixed
+   (out-of-flow) element, so it never reflows the document. */
+.site-header.is-scrolled {
+  background-color: rgb(251 248 240 / 0.92);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgb(20 42 29 / 0.08);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  block-size: var(--header-h);
+  transition: block-size var(--dur) var(--ease);
+}
+
+.site-header.is-scrolled .nav {
+  block-size: var(--header-h-scrolled);
+}
+
+/* ----------------------------------------------------------------------------
+   Brand
+------------------------------------------------------------------------------ */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-inline-size: 0;
+  min-block-size: var(--tap); /* the logo is a link home — it needs a real target */
+}
+
+.brand .mark {
+  display: grid;
+  place-items: center;
+  flex: none;
+  inline-size: 2.375rem;
+  block-size: 2.375rem;
+  color: var(--gold-ink);
+  border: 1px solid var(--gold-500);
+  border-radius: var(--radius-full);
+  transition:
+    color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease);
+}
+
+.brand .mark svg {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+}
+
+.brand .name {
+  min-inline-size: 0;
+  line-height: 1;
+}
+
+.brand .name b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5625rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--green-800);
+  transition: color var(--dur) var(--ease);
+}
+
+/* The tagline is the single widest part of the brand block (~218px). It buys
+   nothing on a small phone and costs the burger its room, so it starts hidden
+   and only appears from --sm. */
+.brand .name small {
+  display: none;
+  font-family: var(--font-sans);
+  font-size: 0.59375rem; /* 9.5px — decorative tagline, not primary content */
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--gold-ink);
+}
+
+@media (--sm) {
+  .brand .name small {
+    display: block;
+  }
+}
+
+@media (--md) {
+  .brand .mark {
+    inline-size: 2.625rem;
+    block-size: 2.625rem;
+  }
+
+  .brand .mark svg {
+    inline-size: 1.375rem;
+    block-size: 1.375rem;
+  }
+}
+
+/* Over the dark hero, before any scrolling has happened. */
+.site-header:not(.is-scrolled) .brand .name b {
+  color: var(--paper);
+}
+
+.site-header:not(.is-scrolled) .brand .name small {
+  color: var(--gold-300);
+}
+
+.site-header:not(.is-scrolled) .brand .mark {
+  color: var(--gold-300);
+  border-color: var(--gold-400);
+}
+
+/* ----------------------------------------------------------------------------
+   Desktop navigation — hidden until --lg
+------------------------------------------------------------------------------ */
+.nav-links {
+  display: none;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.nav-cta {
+  display: none;
+}
+
+.menu-toggle {
+  display: grid;
+  place-content: center;
+  gap: 5px;
+  inline-size: var(--tap);
+  block-size: var(--tap);
+  margin-inline-end: calc(var(--space-2xs) * -1);
+}
+
+.menu-toggle span {
+  inline-size: 1.5rem;
+  block-size: 2px;
+  background-color: var(--green-800);
+  transition:
+    background-color var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    opacity var(--dur-fast) var(--ease);
+}
+
+.site-header:not(.is-scrolled) .menu-toggle span {
+  background-color: var(--paper);
+}
+
+/* Burger morphs to a cross using transforms only. */
+.menu-toggle[aria-expanded="true"] span {
+  background-color: var(--paper);
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (--lg) {
+  .nav-links {
+    display: flex;
+    align-items: center;
+    /* Small gap because each link now carries its own horizontal padding to
+       reach the 44px target minimum; the visual separation is the padding plus
+       the gap, and the total nav width is what has to clear 1024px. */
+    gap: var(--space-2xs);
+  }
+
+  .nav-links a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    /* A short label like "About" is only ~37px of text. The padding and the
+       min-inline-size take every link to a 44x44 target. */
+    min-block-size: var(--tap);
+    min-inline-size: var(--tap);
+    padding-inline: var(--space-2xs);
+    font-size: var(--fs-sm);
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: var(--text-muted);
+    transition: color var(--dur-fast) var(--ease);
+  }
+
+  /* Underline hugs the text, not the padded hit area. */
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    inset-inline: var(--space-2xs);
+    inset-block-end: calc(50% - 0.9em);
+    block-size: 1px;
+    background-color: var(--gold-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .nav-links a:hover::after,
+  .nav-links a:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .nav-links a:hover {
+    color: var(--gold-ink);
+  }
+
+  .site-header:not(.is-scrolled) .nav-links a {
+    color: rgb(255 255 255 / 0.85);
+  }
+
+  .site-header:not(.is-scrolled) .nav-links a:hover {
+    color: #fff;
+  }
+
+  .nav-cta {
+    display: inline-flex;
+    padding-inline: var(--space-md);
+    font-size: var(--fs-xs);
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+}
+
+@media (--xl) {
+  .nav-links {
+    gap: var(--space-sm);
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Mobile drawer
+   Closed state is driven by the `inert` attribute (set from JS), which removes
+   the panel from the tab order AND the accessibility tree — `opacity: 0` alone
+   left six invisible links focusable on desktop in the previous build.
+------------------------------------------------------------------------------ */
+.mobile-menu {
+  position: fixed;
+  z-index: var(--z-drawer);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+
+  /* Scrollable and inset-aware so the links are always reachable, including on
+     a notched phone held in landscape where the usable height is ~390px. */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: calc(var(--header-h) + env(safe-area-inset-top, 0px))
+    max(var(--gutter), env(safe-area-inset-right, 0px))
+    calc(var(--space-xl) + env(safe-area-inset-bottom, 0px))
+    max(var(--gutter), env(safe-area-inset-left, 0px));
+
+  background-color: var(--green-900);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -0.75rem, 0);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    visibility 0s linear var(--dur);
+}
+
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    visibility 0s;
+}
+
+.mobile-menu a:not(.btn) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: var(--tap);
+  padding-block: var(--space-2xs);
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2.125rem);
+  font-weight: 500;
+  color: var(--paper);
+  transition: color var(--dur-fast) var(--ease);
+}
+
+@media (--hover-pointer) {
+  .mobile-menu a:not(.btn):hover {
+    color: var(--gold-400);
+  }
+}
+
+.mobile-menu .btn {
+  margin-block-start: var(--space-md);
+}
+
+/* Landscape phone. Only ~390px of height is available and the natural stack
+   (80px header clearance + 5 x 44px links + gaps + 44px CTA + 48px bottom pad)
+   comes to ~448px, which pushed the "Book a Session" button below the fold.
+   Every value below is trimmed except the 44px link height, which is an
+   accessibility floor and is not negotiable: 64 + 220 + 8 + 44 + 16 = 352px. */
+@media (--short) {
+  .mobile-menu {
+    justify-content: center;
+    gap: 0;
+    padding-block: calc(var(--header-h-scrolled) + env(safe-area-inset-top, 0px))
+      calc(var(--space-sm) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-menu a:not(.btn) {
+    min-block-size: var(--tap);
+    padding-block: 0;
+    font-size: var(--fs-xl);
+  }
+
+  .mobile-menu .btn {
+    margin-block-start: var(--space-2xs);
+  }
+}

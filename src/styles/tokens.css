@@ -1,0 +1,225 @@
+/* ============================================================================
+   DESIGN TOKENS
+   The single source of truth. Nothing below this file should contain a raw
+   colour, a raw font-size, or a raw spacing value.
+
+   Naming: --<group>-<step>. Steps are ordered small -> large.
+   ========================================================================= */
+
+/* ----------------------------------------------------------------------------
+   BREAKPOINTS
+   Mobile-first. Every query in this codebase is `min-width`; the base styles
+   are the small-phone styles and each breakpoint only ever adds.
+
+   Units are `rem` on purpose: media-query rem is always 16px (unaffected by the
+   page's root font-size) but DOES scale with the user's browser font-size
+   setting, so a user who sets 20px text gets the tablet layout sooner — which
+   is what they want. `px` breakpoints ignore that preference.
+
+     token   px      target device
+     ------  ------  ---------------------------------------------------------
+     (base)  320     small phone (iPhone SE 1st gen, Galaxy Fold cover)
+     --sm    480     large phone (iPhone 14/15 Pro Max, Pixel 8 Pro)
+     --md    768     tablet portrait (iPad Mini, iPad 10.9")
+     --lg    1024    tablet landscape / small laptop  <-- nav switches here
+     --xl    1280    desktop
+     --xxl   1600    large desktop / 1080p+ monitors
+------------------------------------------------------------------------------ */
+@custom-media --sm (min-width: 30rem);
+@custom-media --md (min-width: 48rem);
+@custom-media --lg (min-width: 64rem);
+@custom-media --xl (min-width: 80rem);
+@custom-media --xxl (min-width: 100rem);
+
+/* Phones held sideways: plenty of width, almost no height. Full-viewport
+   sections must stop being full-viewport here or content gets clipped. */
+@custom-media --short (max-height: 34rem) and (orientation: landscape);
+
+/* Capability + preference queries, named so intent is readable at the call site. */
+@custom-media --motion-ok (prefers-reduced-motion: no-preference);
+@custom-media --hover-pointer (hover: hover) and (pointer: fine);
+
+:root {
+  /* --------------------------------------------------------------------------
+     COLOUR — primitives
+     Contrast ratios quoted against --paper (#fbf8f0) or --green-900 (#142a1d).
+  -------------------------------------------------------------------------- */
+
+  /* Greens */
+  --green-900: #142a1d; /* darkest — hero, process, footer, form */
+  --green-800: #1f3d2b; /* primary brand */
+  --green-700: #294e36;
+  --green-600: #355c43;
+  --sage-500: #6f8765;
+  --sage-400: #8a9f80;
+  --sage-300: #b3c2a6;
+  --sage-200: #d2dcc6;
+
+  /* Warm neutrals / paper */
+  --cream: #f4eee1;
+  --cream-deep: #ece3d1;
+  --paper: #fbf8f0;
+  --paper-soft: #f8f3e8;
+
+  /* Brass / gold accent */
+  --gold-600: #a07c38; /* 3.64:1 on paper — DECORATIVE + large text only */
+  --gold-500: #b8934c; /* rules, borders, icon strokes */
+  --gold-400: #c9a868; /* 6.73:1 on green-900 — safe for text on dark */
+  --gold-300: #d8bd86; /* 8.37:1 on green-900 */
+  --gold-200: #e6d3a6;
+
+  /* Ink */
+  --ink: #23291f; /* 14.6:1 on paper */
+  --ink-soft: #56604c; /* 7.1:1 on paper  — body copy */
+  --ink-faint: #6a7160; /* 4.78:1 on paper — was #8a9180 (3.07:1, failed AA) */
+
+  /* Small gold text on light backgrounds. --gold-600 is 3.64:1 and fails AA at
+     the 12–13px sizes the eyebrows/labels use, so those get this darker token
+     instead. Kept separate so the decorative gold is not dulled everywhere.
+     Tuned against --cream, not --paper: eyebrows sit on both, and --cream is
+     the darker of the two, so passing there passes everywhere. */
+  --gold-ink: #866527; /* 4.65:1 on cream, 5.07:1 on paper */
+
+  /* Semantic aliases — components reference these, not the primitives above. */
+  --surface: var(--paper);
+  --surface-alt: var(--cream);
+  --surface-inverse: var(--green-900);
+  --text: var(--ink);
+  --text-muted: var(--ink-soft);
+  --text-faint: var(--ink-faint);
+  --text-on-dark: rgb(255 255 255 / 0.82);
+  --text-on-dark-muted: rgb(255 255 255 / 0.66);
+  --border: var(--cream-deep);
+  --border-on-dark: rgb(255 255 255 / 0.16);
+  --accent: var(--gold-500);
+  --danger: #f0a98c; /* on the dark form only */
+  --danger-border: #e08a6a;
+
+  /* Focus ring. Declared as an inherited custom property so any dark section can
+     re-point it once (`--focus-ring: var(--gold-300)`) and every focusable
+     descendant picks up a ring that still clears WCAG 1.4.11's 3:1 against its
+     own background. Default is tuned for light surfaces. */
+  --focus-ring: #0b6b4f; /* 5.4:1 on --paper */
+  --focus-width: 2px;
+  --focus-offset: 3px;
+
+  /* --------------------------------------------------------------------------
+     TYPOGRAPHY
+     Fluid sizes are clamp(min, <rem base> + <vw slope>, max).
+     The rem term is mandatory: a pure-vw middle value does not grow when the
+     user zooms, which fails WCAG 1.4.4 (resize text to 200%).
+     Every scale below hits its min at exactly 320px.
+  -------------------------------------------------------------------------- */
+  --font-serif: "Cormorant Garamond", "Iowan Old Style", "Georgia", "Times New Roman", serif;
+  --font-sans: "Jost", system-ui, -apple-system, "Segoe UI", roboto, helvetica, arial, sans-serif;
+
+  --fs-2xs: 0.6875rem; /* 11px — micro labels, badge captions */
+  --fs-xs: 0.75rem; /* 12px — eyebrows, stat captions */
+  --fs-sm: 0.8125rem; /* 13px — nav, small links */
+  --fs-md: 0.9375rem; /* 15px — card body copy */
+  --fs-base: clamp(1rem, 0.96rem + 0.2vw, 1.0625rem); /* 16 -> 17 */
+  --fs-lg: clamp(1.0625rem, 1.01rem + 0.28vw, 1.1875rem); /* 17 -> 19 */
+  --fs-xl: clamp(1.1875rem, 1.09rem + 0.44vw, 1.375rem); /* 19 -> 22 */
+  --fs-h4: clamp(1.375rem, 1.24rem + 0.68vw, 1.625rem); /* 22 -> 26 */
+  --fs-h3: clamp(1.5rem, 1.3rem + 1vw, 1.9375rem); /* 24 -> 31 */
+  --fs-h2: clamp(2rem, 1.45rem + 2.75vw, 3.75rem); /* 32 -> 60 */
+  --fs-h1: clamp(2.5rem, 1.6rem + 4.5vw, 5.5rem); /* 40 -> 88 */
+  --fs-display: clamp(2.25rem, 1.6rem + 3.25vw, 3.5rem); /* 36 -> 56, stat numerals */
+
+  --lh-tight: 1.05; /* display headings */
+  --lh-snug: 1.25; /* sub-headings, quotes */
+  --lh-body: 1.65; /* paragraphs */
+  --tracking-wide: 0.12em;
+  --tracking-wider: 0.2em;
+  --tracking-widest: 0.32em;
+
+  /* Prose line-length cap. Keeps paragraphs readable when the container is
+     wide, without shrinking the container itself. */
+  --measure: 62ch;
+  --measure-narrow: 46ch;
+
+  /* --------------------------------------------------------------------------
+     SPACING
+     Static steps for component-internal rhythm, fluid steps for anything that
+     separates major blocks. Fluid steps hit their min at 320px and their max
+     between 1120px and 1280px, so a 1920px screen gets generous — not absurd —
+     spacing.
+  -------------------------------------------------------------------------- */
+  --space-3xs: 0.25rem; /* 4  */
+  --space-2xs: 0.5rem; /* 8  */
+  --space-xs: 0.75rem; /* 12 */
+  --space-sm: 1rem; /* 16 */
+  --space-md: 1.5rem; /* 24 */
+  --space-lg: 2rem; /* 32 */
+  --space-xl: 3rem; /* 48 */
+  --space-2xl: 4rem; /* 64 */
+
+  --space-fluid-sm: clamp(1rem, 0.8rem + 1vw, 1.5rem); /* 16 -> 24 */
+  --space-fluid-md: clamp(1.5rem, 1.1rem + 2vw, 2.5rem); /* 24 -> 40 */
+  --space-fluid-lg: clamp(2rem, 1.2rem + 4vw, 4rem); /* 32 -> 64 */
+  --space-fluid-xl: clamp(3rem, 1.5rem + 7.5vw, 6.5rem); /* 48 -> 104 */
+
+  /* Vertical breathing room on every top-level <section>. */
+  --section-pad: clamp(3.5rem, 2rem + 7.5vw, 8rem); /* 56 -> 128 */
+
+  /* --------------------------------------------------------------------------
+     LAYOUT
+  -------------------------------------------------------------------------- */
+  --container: 85rem; /* 1360px — content stops growing here */
+  --container-narrow: 45rem; /* 720px  — centred section intros */
+  --gutter: clamp(1.25rem, 0.5rem + 3.75vw, 4.5rem); /* 20 -> 72 (caps @1706px) */
+
+  --header-h: 4.5rem; /* 72px — also drives scroll-margin + hero offset */
+  --header-h-scrolled: 3.75rem; /* 60px */
+
+  /* WCAG 2.5.8 / 2.5.5 minimum interactive target. */
+  --tap: 2.75rem; /* 44px */
+
+  /* --------------------------------------------------------------------------
+     BORDERS / RADII / ELEVATION
+  -------------------------------------------------------------------------- */
+  --radius-xs: 2px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-full: 50%;
+
+  --shadow-sm: 0 2px 12px rgb(20 42 29 / 0.06);
+  --shadow-md: 0 18px 50px -20px rgb(20 42 29 / 0.28);
+  --shadow-lg: 0 40px 90px -40px rgb(20 42 29 / 0.45);
+
+  /* --------------------------------------------------------------------------
+     MOTION
+     Durations are referenced, never hard-coded, so `prefers-reduced-motion`
+     can zero all of them in one place (see base.css).
+  -------------------------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur: 320ms;
+  --dur-slow: 600ms;
+  --dur-reveal: 900ms;
+
+  /* --------------------------------------------------------------------------
+     STACKING
+     Every z-index in the codebase comes from here, so there is one ordering.
+  -------------------------------------------------------------------------- */
+  --z-base: 1;
+  --z-raised: 2;
+  --z-header: 100;
+  --z-drawer: 200;
+  --z-skip: 300;
+}
+
+/* The header grows with the viewport; consumers just read --header-h. */
+@media (--md) {
+  :root {
+    --header-h: 5rem; /* 80px */
+    --header-h-scrolled: 4rem; /* 64px */
+  }
+}
+
+@media (--lg) {
+  :root {
+    --header-h: 5.5rem; /* 88px */
+    --header-h-scrolled: 4.25rem; /* 68px */
+  }
+}
