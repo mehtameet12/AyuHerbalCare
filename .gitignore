@@ -46,3 +46,6 @@ Desktop.ini
 
 # test artifacts
 /screenshots/
+
+# full-resolution source images — only the optimised WebPs in public/images/ ship
+/assets-src/
