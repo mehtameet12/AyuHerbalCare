@@ -112,15 +112,26 @@
     <main id="main">
       <!-- ============ HERO ============ -->
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-bg" aria-hidden="true">
+          <!-- The hero background is the LCP element, so it is a real <img> with
+               fetchpriority rather than a CSS background: the preload scanner can
+               only find it in the markup. -->
+          <img
+            src="/images/hero-background.webp"
+            width="1672"
+            height="941"
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <p class="hero-eyebrow eyebrow light">Ancient wisdom · Modern care</p>
-            <h1 id="hero-title">
-              Restore your
-              <em>balance</em>
-              , the natural way.
-            </h1>
+            <!-- Kept on one line: prettier runs with htmlWhitespaceSensitivity "ignore" and will
+                 break around the <em>, and that break renders as a space before the comma. -->
+            <!-- prettier-ignore -->
+            <h1 id="hero-title">Restore your <em>balance</em>, the natural way.</h1>
             <p class="lead">
               Personalised Ayurvedic treatments and hand-prepared herbal therapies, guided by thirty years of healing
               experience. Calm the body, quiet the mind, return to yourself. Visits are by appointment only, no
@@ -146,25 +157,6 @@
                 <b>5.0</b>
                 <span>Google rating</span>
               </div>
-            </div>
-          </div>
-
-          <div class="hero-visual reveal d1">
-            <!-- Replace .ph with a real <img> / <picture>; see media.css for the
-                 exact pattern. This is the LCP element, so it must be eager. -->
-            <div class="media hero-figure">
-              <div class="ph dark" data-label="Hero shirodhara treatment in calm clinic"></div>
-            </div>
-            <div class="hero-badge">
-              <div>
-                <p class="g-stars" role="img" aria-label="Rated 5 out of 5 stars">★★★★★</p>
-                <b>5.0</b>
-              </div>
-              <small>
-                Rated by clients on
-                <br />
-                Google Reviews
-              </small>
             </div>
           </div>
         </div>

@@ -26,9 +26,54 @@
 .hero-bg {
   position: absolute;
   inset: 0;
+  background-color: var(--green-900);
+}
+
+.hero-bg img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+
+  /* A 16:9 photograph cropped into a portrait viewport keeps only a sliver, and
+     centring it lands on the empty left half — flat green with nothing in it.
+     Holding the crop right of centre keeps the foliage and brass bowl in frame
+     on a phone. Wide viewports crop little, so they recentre. */
+  object-position: 72% center;
+}
+
+@media (--lg) {
+  .hero-bg img {
+    object-position: center;
+  }
+}
+
+/* The scrim. The photograph is already dark, but not evenly so, and the copy
+   has to clear 4.5:1 over whichever part of it happens to sit behind the text
+   at a given viewport. Stacked over the image rather than baked into it so the
+   same file works at every crop. */
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(120% 90% at 85% 15%, rgb(184 147 76 / 0.14), transparent 55%),
-    radial-gradient(90% 80% at 0% 100%, rgb(111 135 101 / 0.22), transparent 60%), var(--green-900);
+    linear-gradient(180deg, rgb(20 42 29 / 0.88), rgb(20 42 29 / 0.74));
+}
+
+/* Wide enough for the copy to sit in the left half: the scrim fades out towards
+   the foliage on the right so the photograph is actually visible. */
+@media (--lg) {
+  .hero-bg::after {
+    background:
+      radial-gradient(120% 90% at 85% 15%, rgb(184 147 76 / 0.14), transparent 55%),
+      linear-gradient(
+        90deg,
+        rgb(20 42 29 / 0.94) 0%,
+        rgb(20 42 29 / 0.82) 40%,
+        rgb(20 42 29 / 0.42) 72%,
+        rgb(20 42 29 / 0.2) 100%
+      );
+  }
 }
 
 .hero-grid {
@@ -42,9 +87,8 @@
 }
 
 @media (--lg) {
-  .hero-grid {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: clamp(2rem, 0.5rem + 4vw, 4.5rem);
+  .hero-copy {
+    max-inline-size: 46rem;
   }
 }
 
@@ -97,78 +141,6 @@
 @media (--sm) {
   .hero-actions .btn {
     flex: 0 0 auto;
-  }
-}
-
-/* ----------------------------------------------------------------------------
-   Visual
------------------------------------------------------------------------------- */
-.hero-visual {
-  container-type: inline-size;
-  position: relative;
-  inline-size: 100%;
-  max-inline-size: 30rem;
-  margin-inline: auto;
-}
-
-@media (--lg) {
-  .hero-visual {
-    max-inline-size: none;
-    margin-inline: 0;
-  }
-}
-
-.hero-figure {
-  --ratio: 4 / 5;
-
-  box-shadow: var(--shadow-lg);
-}
-
-/* The Google rating badge. It sits BELOW the image by default; only once its
-   container is wide enough to absorb the overhang does it become an overlay.
-   The previous build gave it `left: -34px` unconditionally, which pushed it
-   past the 20px page gutter on a 320px screen and caused real horizontal
-   overflow (previously hidden by `overflow-x: hidden` on <body>). */
-.hero-badge {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  margin-block-start: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  color: var(--green-800);
-  background-color: var(--paper);
-  border-radius: var(--radius-sm);
-  box-shadow: var(--shadow-md);
-}
-
-.hero-badge .g-stars {
-  font-size: var(--fs-md);
-  letter-spacing: 2px;
-  color: var(--gold-500);
-}
-
-.hero-badge b {
-  display: block;
-  font-family: var(--font-serif);
-  font-size: var(--fs-h4);
-  line-height: 1;
-  color: var(--green-800);
-}
-
-.hero-badge small {
-  font-size: var(--fs-2xs);
-  line-height: 1.4;
-  letter-spacing: 0.04em;
-  color: var(--text-muted);
-}
-
-@container (min-width: 26rem) {
-  .hero-badge {
-    position: absolute;
-    inset-inline-start: max(-2.125rem, calc(var(--gutter) * -0.5));
-    inset-block-end: var(--space-fluid-md);
-    max-inline-size: 17rem;
-    margin-block-start: 0;
   }
 }
 
@@ -239,9 +211,5 @@
 
   .hero-scroll {
     display: none;
-  }
-
-  .hero-visual {
-    max-inline-size: 22rem;
   }
 }
