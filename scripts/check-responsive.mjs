@@ -115,6 +115,16 @@ function auditPage(minTap, tolerance) {
   const isVisible = (el, style) =>
     style.visibility !== 'hidden' && style.display !== 'none' && Number(style.opacity) !== 0;
 
+  // A card sitting off to the right inside a deliberate horizontal scroller
+  // (the reviews carousel) is not page overflow — the page itself still fits.
+  const inScroller = (el) => {
+    for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
+      const ox = getComputedStyle(p).overflowX;
+      if (ox === 'auto' || ox === 'scroll') return true;
+    }
+    return false;
+  };
+
   for (const el of document.body.querySelectorAll('*')) {
     const style = getComputedStyle(el);
     if (!isVisible(el, style)) continue;
@@ -122,8 +132,12 @@ function auditPage(minTap, tolerance) {
     const rect = el.getBoundingClientRect();
     if (rect.width === 0 && rect.height === 0) continue;
 
+    // A visually-hidden label is a clipped 1px box by design — rules 3 and 4
+    // would otherwise report the accessibility pattern itself as the defect.
+    if (el.classList.contains('visually-hidden')) continue;
+
     // 2. horizontal overflow past either viewport edge
-    if (rect.right > vw + tolerance || rect.left < -tolerance) {
+    if ((rect.right > vw + tolerance || rect.left < -tolerance) && !inScroller(el)) {
       problems.push({
         rule: 'overflow-x',
         detail: `${describe(el)} spans ${Math.round(rect.left)}..${Math.round(rect.right)} (viewport 0..${vw})`,

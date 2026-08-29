@@ -76,15 +76,19 @@
 }
 
 .brand .name {
+  display: grid; /* rows, so the gap below owns the spacing rather than the line boxes */
+  gap: 0.3em;
   min-inline-size: 0;
-  line-height: 1;
 }
 
+/* `line-height: 1` on a serif this size crops the box to the cap height, so the
+   descender of the "y" ran straight into the tagline underneath. 1.15 plus the
+   grid gap above leaves the descender its room. */
 .brand .name b {
-  display: block;
   font-family: var(--font-serif);
   font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5625rem);
   font-weight: 600;
+  line-height: 1.15;
   letter-spacing: 0.01em;
   color: var(--green-800);
   transition: color var(--dur) var(--ease);
@@ -97,6 +101,7 @@
   display: none;
   font-family: var(--font-sans);
   font-size: 0.59375rem; /* 9.5px — decorative tagline, not primary content */
+  line-height: 1.2;
   letter-spacing: 0.34em;
   text-transform: uppercase;
   color: var(--gold-ink);

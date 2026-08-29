@@ -75,15 +75,147 @@
   color: var(--text-muted);
 }
 
-/* Same fluid-to-three-columns approach as the services grid. */
-.reviews-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
-  gap: var(--space-fluid-md);
+/* ----------------------------------------------------------------------------
+   Carousel
+
+   A scroll-snap track, not a JS slider: swipe, trackpad, shift-wheel and the
+   arrow keys (the track is focusable) all scroll it natively, so the arrow
+   buttons in carousel.js are an enhancement rather than the mechanism.
+------------------------------------------------------------------------------ */
+.reviews-track {
+  --per-view: 1.15; /* the .15 is the next card peeking in, the affordance that says "scrollable" */
+  --gap: var(--space-fluid-md);
+
+  display: flex;
+  gap: var(--gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain; /* swiping past the last card must not navigate back */
+  scroll-snap-type: x mandatory;
+
+  /* The cards lift 8px and cast a shadow on hover; without this padding the
+     horizontal scroll container clips both. */
+  padding-block: var(--space-2xs);
+
+  /* The snap points already communicate position, and a permanent scrollbar
+     under the cards reads as a rendering artefact on desktop. */
+  scrollbar-width: none;
+}
+
+.reviews-track::-webkit-scrollbar {
+  display: none;
+}
+
+.reviews-track > .review-card {
+  flex: 0 0 calc((100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view));
+  scroll-snap-align: start;
+}
+
+@media (--md) {
+  .reviews-track {
+    --per-view: 2;
+  }
 }
 
 @media (--lg) {
-  .reviews-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .reviews-track {
+    --per-view: 3;
   }
+}
+
+/* The buttons are positioned against the carousel wrapper, not the track: the
+   track is the scroll container, so anything absolutely placed inside it would
+   scroll away with the cards.
+
+   From --lg the wrapper reserves a lane of its own on each side and the buttons
+   sit in it, clear of the cards. Narrower than that there is no width to spare,
+   so they fall back to a small overhang over the card edge — a third of their
+   own width, which stays inside the smallest --gutter (20px) and so never
+   spills past the viewport. */
+.reviews-carousel {
+  --btn-size: 2.75rem;
+  --btn-edge: calc(var(--btn-size) / -3);
+
+  position: relative;
+}
+
+@media (--lg) {
+  .reviews-carousel {
+    --btn-size: 3.25rem;
+    --btn-edge: 0px;
+
+    padding-inline: calc(var(--btn-size) + var(--space-md));
+  }
+}
+
+.carousel-btn {
+  position: absolute;
+  inset-block-start: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  inline-size: var(--btn-size);
+  block-size: var(--btn-size);
+  color: var(--green-800);
+
+  /* Bare chevron — no plate, no border. The box is kept at --btn-size purely so
+     the tap target stays finger-sized around a glyph that is under half of it. */
+  background: none;
+  border: 0;
+  cursor: pointer;
+  translate: 0 -50%;
+  transition:
+    color var(--dur) var(--ease),
+    opacity var(--dur) var(--ease);
+}
+
+.carousel-btn.prev {
+  inset-inline-start: var(--btn-edge);
+}
+
+.carousel-btn.next {
+  inset-inline-end: var(--btn-edge);
+}
+
+/* base.css sets `svg { fill: currentcolor }`, and a stylesheet rule beats the
+   `fill="none"` presentation attribute on the element, so the chevron has to be
+   un-filled here or it renders as a solid triangle. */
+.carousel-btn svg {
+  inline-size: 44%;
+  block-size: 44%;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 1.5;
+  transition: translate var(--dur) var(--ease);
+}
+
+/* aria-disabled rather than the disabled attribute: a real `disabled` on the
+   button the user just clicked would drop keyboard focus to <body> the moment
+   they reach either end. carousel.js ignores clicks on these instead. */
+.carousel-btn[aria-disabled="true"] {
+  opacity: 0.35;
+  cursor: default;
+}
+
+@media (--hover-pointer) {
+  .carousel-btn:not([aria-disabled="true"]):hover {
+    color: var(--gold-600);
+  }
+
+  /* The chevron leans the way it travels. */
+  .carousel-btn.prev:not([aria-disabled="true"]):hover svg {
+    translate: -2px 0;
+  }
+
+  .carousel-btn.next:not([aria-disabled="true"]):hover svg {
+    translate: 2px 0;
+  }
+}
+
+/* ----------------------------------------------------------------------------
+   Section CTA
+------------------------------------------------------------------------------ */
+.reviews-cta {
+  display: flex;
+  justify-content: center;
+  margin-block-start: var(--space-fluid-md);
 }

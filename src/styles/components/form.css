@@ -76,21 +76,88 @@
   /* Reset the native control so the dark theme applies on iOS too. */
   appearance: none;
   padding-inline-end: var(--space-xl);
-  background-image:
-    linear-gradient(45deg, transparent 50%, currentcolor 50%),
-    linear-gradient(135deg, currentcolor 50%, transparent 50%);
-  background-position:
-    right var(--space-md) center,
-    right calc(var(--space-md) - 5px) center;
-  background-size:
-    5px 5px,
-    5px 5px;
+  cursor: pointer;
+
+  /* Gold chevron drawn at the same 1.4 stroke as every other icon on the site,
+     rather than the solid triangle the browser would draw. --gold-400 (#c9a868)
+     is inlined because a data URI cannot read a custom property. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='m6 9.5 6 6 6-6' stroke='%23c9a868' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right var(--space-sm) center;
+  background-size: 1.15rem 1.15rem;
   background-repeat: no-repeat;
 }
 
+/* Until a service is picked, the prompt reads as placeholder text like the
+   inputs above it. Safari 15.0 has no :has() and simply shows it full-strength. */
+.field select:has(option[value=""]:checked) {
+  color: rgb(255 255 255 / 0.45);
+}
+
+/* The popup is drawn by the OS, so it gets the light pairing — a dark option
+   list is ignored outright on several platforms and unreadable on the rest. */
 .field select option {
   color: var(--ink);
   background-color: var(--paper);
+}
+
+.field select:hover {
+  border-color: rgb(255 255 255 / 0.35);
+}
+
+/* ----------------------------------------------------------------------------
+   The popup itself
+
+   `appearance: base-select` (Chrome 135+) hands the option list over to CSS so
+   it can wear the form's dark green instead of the OS default. Browsers without
+   it ignore this whole block and keep drawing the native popup, which is why the
+   light `option` pairing above has to stay.
+------------------------------------------------------------------------------ */
+@supports (appearance: base-select) {
+  .field select,
+  .field select::picker(select) {
+    appearance: base-select;
+  }
+
+  /* The gold chevron is already painted as a background image on the control. */
+  .field select::picker-icon {
+    display: none;
+  }
+
+  .field select::picker(select) {
+    padding: var(--space-3xs);
+    margin-block-start: var(--space-3xs);
+    color: var(--paper);
+    background-color: var(--green-800);
+    border: 1px solid rgb(255 255 255 / 0.2);
+    border-radius: var(--radius-xs);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .field select option {
+    padding: var(--space-2xs) var(--space-xs);
+    font-size: var(--fs-md);
+    color: var(--paper);
+    background-color: transparent;
+    border-radius: var(--radius-xs);
+  }
+
+  /* :hover for the pointer, :focus for the arrow keys — the popup moves focus
+     rather than :active-ing its way down the list. */
+  .field select option:hover,
+  .field select option:focus {
+    background-color: rgb(255 255 255 / 0.08);
+    outline: none;
+  }
+
+  .field select option:checked {
+    color: var(--gold-300);
+  }
+
+  /* The gold text is the selected cue; the default tick would push every label
+     out of line with the control's own padding. */
+  .field select option::checkmark {
+    display: none;
+  }
 }
 
 .field textarea {
@@ -205,4 +272,22 @@
     opacity: 1;
     transform: none;
   }
+}
+
+/* Shown only when the Formspree POST fails — the form itself stays filled in. */
+.form-error {
+  margin-block-start: var(--space-2xs);
+  font-size: var(--fs-2xs);
+  letter-spacing: 0.04em;
+  color: var(--danger);
+  text-align: center;
+}
+
+.form-error:focus {
+  outline: none;
+}
+
+.form-error a {
+  color: inherit;
+  text-decoration: underline;
 }

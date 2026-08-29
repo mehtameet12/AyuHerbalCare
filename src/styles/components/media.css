@@ -56,7 +56,9 @@
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: flex-end;
+  /* Top-anchored, not bottom: the about figure floats its qualification chips
+     along the bottom edge and the two labels landed on top of each other. */
+  align-items: flex-start;
   justify-content: flex-start;
   background-color: var(--sage-200);
   background-image: repeating-linear-gradient(

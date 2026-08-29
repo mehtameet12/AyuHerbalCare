@@ -6,16 +6,16 @@
  * — that is what assistive tech reads, and it is what keeps the form usable if
  * this script never runs.
  *
- * NOTE: there is no backend. Submitting shows the confirmation panel and
- * nothing is sent. Point the <form> at an endpoint (`action` + `method`) or
- * POST `new FormData(form)` from `onValid()` to make it live; every control
- * already has a `name`.
+ * On submit the form is POSTed to its `action` (Formspree) with fetch, so the
+ * visitor stays on the page and gets the confirmation panel instead of
+ * Formspree's own thank-you screen.
  */
 
 /** @param {HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement} control */
 function isValid(control) {
   const value = control.value.trim();
-  if (!value) return false;
+  // Empty is fine on an optional control — only `required` makes blank a failure.
+  if (!value) return !control.required;
   // `validity.typeMismatch` is the browser's own email/tel parser — more
   // correct than any regex worth writing here.
   return !control.validity.typeMismatch;
@@ -34,9 +34,12 @@ function setFieldState(field, control, invalid) {
 export function initForm() {
   const form = document.getElementById('bookingForm');
   const success = document.getElementById('formSuccess');
+  const error = document.getElementById('formError');
+  const button = form?.querySelector('button[type="submit"]');
   if (!form) return;
 
-  const controls = Array.from(form.querySelectorAll('[required]'));
+  // Optional email still gets checked for shape, just not for presence.
+  const controls = Array.from(form.querySelectorAll('[required], input[type="email"]'));
 
   controls.forEach((control) => {
     const field = control.closest('.field');
@@ -55,7 +58,7 @@ export function initForm() {
     });
   });
 
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     let firstInvalid = null;
@@ -72,6 +75,40 @@ export function initForm() {
       // Move focus to the first problem so a keyboard or screen-reader user is
       // taken straight to it instead of being told "nothing happened".
       firstInvalid.focus();
+      return;
+    }
+
+    if (error) error.hidden = true;
+    if (button) {
+      button.disabled = true;
+      button.dataset.label = button.textContent;
+      button.textContent = 'Sending…';
+    }
+
+    let sent = false;
+    try {
+      // `Accept: application/json` keeps Formspree from answering with a
+      // redirect to its own thank-you page.
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      sent = response.ok;
+    } catch {
+      // Offline or blocked — falls through to the error message below.
+    }
+
+    if (!sent) {
+      // Leave the filled-in form alone so nothing the visitor typed is lost.
+      if (button) {
+        button.disabled = false;
+        button.textContent = button.dataset.label;
+      }
+      if (error) {
+        error.hidden = false;
+        error.focus();
+      }
       return;
     }
 
