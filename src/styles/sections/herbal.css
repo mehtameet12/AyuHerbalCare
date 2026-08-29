@@ -19,9 +19,46 @@
 }
 
 @media (--lg) {
+  /* Editorial bleed. The visual column drops past the section's bottom edge and
+     overlaps the dark .about section below it, so the photograph crosses the
+     paper/green boundary instead of stopping at it.
+
+     Two things make it work and both are load-bearing:
+     - .herbal is already `position: relative` (layout.css), so raising it above
+       its later sibling only needs a z-index; without one, .about paints over
+       the overhang because it comes second in the DOM.
+     - `overflow-x: clip` on .herbal clips the horizontal axis ONLY. Paired with
+       an unset (visible) block axis it creates no scroll container, so the
+       vertical overhang is not clipped — this is exactly why `clip` is used
+       there rather than `hidden`.
+
+     The overhang is a fraction of --section-pad rather than a fixed px so it
+     always lands inside .about's own top padding and can never reach its
+     content, at any viewport. */
+  .herbal {
+    z-index: var(--z-raised);
+  }
+
   .herbal-visual {
+    /* --bleed is how far the image finishes BELOW the section's own edge. The
+       margin cancels the section's bottom padding first, then adds the bleed on
+       top, so the number means what it says at every viewport.
+
+       `align-self: end` is what makes it height-independent: it pins the image's
+       margin-box bottom to the row bottom, so the overhang stays exactly --bleed
+       whether the copy column is taller than the image or shorter. Centering it
+       instead made the overhang depend on which column won, and at 1440px the
+       copy won and the image stopped 58px short of the boundary. */
+    --bleed: clamp(3.5rem, 2rem + 4vw, 6rem);
+
+    /* Image to the right of the copy here, so the bleed lands over .about's
+       text column instead of stacking on top of the portrait it puts on the
+       left. Reading order is unchanged. */
+    order: 2;
+    align-self: end;
     max-inline-size: none;
     margin-inline: 0;
+    margin-block-end: calc((var(--section-pad) + var(--bleed)) * -1);
   }
 }
 
@@ -34,7 +71,12 @@
 /* Overlapping inset image. Like the hero badge, this only overlaps once its
    container can absorb the overhang; below that it sits inline. The previous
    `right: -28px; bottom: -34px` applied at every width and overflowed a 320px
-   viewport by ~8px. */
+   viewport by ~8px.
+
+   ponytail: currently unused — the section runs a single bleeding image and the
+   .sub-img markup is out of index.html. Kept because the two-image layout is an
+   explicit fallback; delete this rule and the @container block below it if the
+   single image sticks. */
 .herbal-visual .sub-img {
   --ratio: 1;
 
