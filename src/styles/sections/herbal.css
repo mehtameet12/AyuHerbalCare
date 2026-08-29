@@ -19,46 +19,38 @@
 }
 
 @media (--lg) {
-  /* Editorial bleed. The visual column drops past the section's bottom edge and
-     overlaps the dark .about section below it, so the photograph crosses the
-     paper/green boundary instead of stopping at it.
-
-     Two things make it work and both are load-bearing:
-     - .herbal is already `position: relative` (layout.css), so raising it above
-       its later sibling only needs a z-index; without one, .about paints over
-       the overhang because it comes second in the DOM.
-     - `overflow-x: clip` on .herbal clips the horizontal axis ONLY. Paired with
-       an unset (visible) block axis it creates no scroll container, so the
-       vertical overhang is not clipped — this is exactly why `clip` is used
-       there rather than `hidden`.
-
-     The overhang is a fraction of --section-pad rather than a fixed px so it
-     always lands inside .about's own top padding and can never reach its
-     content, at any viewport. */
+  /* The cut-out climbs out of the section and over the dark .process band
+     above it, so the section's own generous top padding comes off — what is
+     left is only what the copy needs to clear the boundary. */
   .herbal {
-    z-index: var(--z-raised);
+    padding-block-start: var(--space-fluid-md);
   }
 
   .herbal-visual {
-    /* --bleed is how far the image finishes BELOW the section's own edge. The
-       margin cancels the section's bottom padding first, then adds the bleed on
-       top, so the number means what it says at every viewport.
+    /* Equal negative margins at both ends: the image overflows the grid row by
+       --bleed top AND bottom, so its optical centre stays on the row's centre
+       line and the copy beside it still reads as level with it. Only the top
+       end escapes the section — --section-pad at the bottom is always larger
+       than --bleed, so nothing reaches .about below. */
+    /* Capped at the section's own bottom padding less a 1.5rem margin: the
+       overflow is symmetric, so an uncapped bleed would push the bottom of the
+       image out of the section and into .about. */
+    --bleed: min(clamp(4rem, 1rem + 8vw, 10rem), calc(var(--section-pad) - 1.5rem));
 
-       `align-self: end` is what makes it height-independent: it pins the image's
-       margin-box bottom to the row bottom, so the overhang stays exactly --bleed
-       whether the copy column is taller than the image or shorter. Centering it
-       instead made the overhang depend on which column won, and at 1440px the
-       copy won and the image stopped 58px short of the boundary. */
-    --bleed: clamp(3.5rem, 2rem + 4vw, 6rem);
-
-    /* Image to the right of the copy here, so the bleed lands over .about's
-       text column instead of stacking on top of the portrait it puts on the
-       left. Reading order is unchanged. */
     order: 2;
-    align-self: end;
+    margin-block: calc(var(--bleed) * -1);
     max-inline-size: none;
     margin-inline: 0;
-    margin-block-end: calc((var(--section-pad) + var(--bleed)) * -1);
+  }
+}
+
+/* Nudged down against the image's optical centre — the cut-out is heavier at
+   the bottom, so a strictly centred copy column reads slightly high. Offset
+   rather than margin so the grid row, and with it the image, does not move. */
+@media (--lg) {
+  .herbal .prose {
+    position: relative;
+    inset-block-start: 1.5rem;
   }
 }
 
@@ -66,6 +58,29 @@
   --ratio: 5 / 6;
 
   box-shadow: var(--shadow-md);
+}
+
+/* Cut-out variant. Add `cutout` alongside `main-img` and point the <img> at a
+   transparent PNG/WebP: the subject sits on the section's own background with no
+   photo frame around it.
+
+   Everything switched off here is something .media supplies for a rectangular
+   photo and which would otherwise render as a visible box behind the alpha —
+   the sage placeholder fill, the corner radius, and the clip. The shadow has to
+   become `filter: drop-shadow`, which follows the alpha edge; `box-shadow`
+   traces the element box and would draw a rectangle around a cut-out. */
+.herbal-visual .main-img.cutout {
+  overflow: visible;
+  background-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  filter: drop-shadow(0 24px 40px rgb(20 42 29 / 0.5));
+}
+
+/* `cover` would crop the subject's edges; the transparent margin is part of the
+   composition here, so the whole frame has to fit. */
+.herbal-visual .main-img.cutout > img {
+  object-fit: contain;
 }
 
 /* Overlapping inset image. Like the hero badge, this only overlaps once its
@@ -127,15 +142,4 @@
   color: var(--gold-ink);
   border: 1px solid var(--gold-500);
   border-radius: var(--radius-full);
-}
-
-.herbal-note {
-  max-inline-size: var(--measure);
-  padding: var(--space-sm) var(--space-md);
-  font-family: var(--font-serif);
-  font-size: var(--fs-lg);
-  font-style: italic;
-  color: var(--text-muted);
-  background-color: var(--cream);
-  border-inline-start: 2px solid var(--gold-500);
 }
